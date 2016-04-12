@@ -1,0 +1,43 @@
+@font-face {
+	font-family: "Cursive standard";
+	src: url("../fonts/Cursive standard Bold.ttf");
+}
+
+.word-img {
+	max-width:100%;
+	max-height:100%;
+}
+
+.base {
+	width: 100px;
+	height: 100px;
+	padding: 0.5em;
+	padding-top: 8px;
+	float: left;
+	margin: 10px 10px 10px 0;
+	border-radius: 1em;
+	font-size:50px;
+	text-align: center;
+	font-family: "Cursive standard";
+}
+
+.vowel {
+	color: blue;
+}
+
+.consonant {
+	color: red;
+}
+
+.droppable { 
+ 	background-color:lightgray;
+ }
+
+.good {
+	background-color:lightgreen;
+}
+
+.draggable {
+	background-color:lightblue;
+}
+
