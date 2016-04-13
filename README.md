@@ -3,7 +3,6 @@ Dictée Montessori
 
 ## TODO
 
-* Maybe add phonems like ch, oi, on
 * Horizontally and vertically center image
 * Play animations on wrong, good and end
 * Maybe choose letter order and font (lower and upper, cursive or not)

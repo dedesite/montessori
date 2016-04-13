@@ -67,11 +67,13 @@ $(function() {
     return words[Math.floor(Math.random() * (words.length))];
   }
 
+  function onMouseDown(ev) {
+    playSound($(ev.target).text());
+  }
+
   function onRefresh() {
-    $('.letter').off('mousedown');
-    $('.letter').mousedown(function(ev){
-      playSound($(ev.target).text());
-    });
+    $('.letter').off('mousedown', onMouseDown);
+    $('.letter').mousedown(onMouseDown);
   }
 
   function reloadWord() {
