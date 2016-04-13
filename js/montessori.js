@@ -5,7 +5,7 @@ $(function() {
 
   function getLetterType(letter) {
     if(letter.length > 1)
-      return 'phonem';
+      return letter[0] === '_' ? 'mute' : 'phonem';
     else
       return vowels.search(letter) != -1 ? 'vowel' : 'consonant';
   }
@@ -23,23 +23,25 @@ $(function() {
   }
 
   function createWord(el, word) {
-    var fullWord = word[0];
-    var gapWord = word[1];
+    var fullWord = word.join('').replace('_', '');
     $('<div/>', {
       class: 'col-md-1'
     }).appendTo(el).html('<img class="word-img" src="./img/' + fullWord + '.jpg" class="thumbnail">');
-    gapWord.forEach(function(c) {
+    word.forEach(function(c) {
+      var letter = c.replace('_', '');
+      //Only display complex phonem and mute char
+      var displayedChar = c.length > 1 ? letter : '';
       $('<div/>', {
         class: 'col-md-1 letter droppable base ' + getLetterType(c),
-        text: c
-      }).appendTo(el).droppable({drop: onDrop}).data('letter', c);
+        text: displayedChar
+      }).appendTo(el).droppable({drop: onDrop}).data('letter', letter);
     });
   }
 
   function onDrop(event, ui ) {
     var dropLetter = $(ui.draggable).data('letter');
     var wantedLetter = $(this).data('letter');
-    
+
     if(dropLetter == wantedLetter)
     {
       playSound('good');

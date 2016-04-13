@@ -33,6 +33,10 @@
 	color: green;
 }
 
+.mute {
+	color: grey;
+}
+
 .droppable { 
  	background-color:lightgray;
  }
