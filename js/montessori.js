@@ -1,6 +1,7 @@
 $(function() {
   var vowels = 'aâeéèêiïîouy';
   var consonants = 'bcçdfghjklmnpqrstvwxz';
+  var phonems = ['eil', 'ce', 'qu'];
   var words = null;
   var currentWord = null;
 
@@ -8,7 +9,7 @@ $(function() {
     if(letter.length > 1)
       return letter[0] === '_' ? 'mute' : 'phonem';
     else
-      return vowels.search(letter) != -1 ? 'vowel' : 'consonant';
+      return vowels.search(letter) !== -1 ? 'vowel' : 'consonant';
   }
   function createLetter(el, letter) {
     var letterType = getLetterType(letter);
@@ -66,13 +67,18 @@ $(function() {
     return words[Math.floor(Math.random() * (words.length))];
   }
 
+  function onRefresh() {
+    $('.letter').off('mousedown');
+    $('.letter').mousedown(function(ev){
+      playSound($(ev.target).text());
+    });
+  }
+
   function reloadWord() {
     var el = $('.word').get(0);
     $(el).html('');
     currentWord = createWord(el, getRandomWord());
-    $('.letter').mousedown(function(ev){
-      playSound($(ev.target).text());
-    });
+    onRefresh();
     el = $('.sol').get(0);
     $(el).html('<button id="solution" class="btn">Solution</button>');
     $('#solution').click(function(){
@@ -82,10 +88,21 @@ $(function() {
 
   function createLetters() {
     el = $('.letters').get(0);
+    $(el).html('');
     var s = vowels + consonants;
     s.split('').forEach(function(c) {
       createLetter(el, c);
     });
+    onRefresh();
+  }
+
+  function createPhonems() {
+    el = $('.letters').get(0);
+    $(el).html('');
+    phonems.forEach(function(phonem) {
+      createLetter(el, phonem);
+    });
+    onRefresh();
   }
 
   function showSolution() {
@@ -102,6 +119,14 @@ $(function() {
 
   $('#reload').click(function(){
     reloadWord();
+  });
+
+  $('#show-phonems').click(function(){
+    createPhonems();
+  });
+
+  $('#show-letters').click(function(){
+    createLetters();
   });
 
   $.getJSON('./data/words.json', function(data){
