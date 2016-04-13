@@ -1,32 +1,37 @@
 $(function() {
-  var word = 'ba';
   var vowels = 'aâeéèêiïîouy';
   var consonants = 'bcçdfghjklmnpqrstvwxz';
-  var words = ['soleil', 'table'];
+  var words = null;
 
   function getLetterType(letter) {
-    return vowels.search(letter) != -1 ? 'vowel' : 'consonant';
+    if(letter.length > 1)
+      return 'phonem';
+    else
+      return vowels.search(letter) != -1 ? 'vowel' : 'consonant';
   }
   function createLetter(el, letter) {
     var letterType = getLetterType(letter);
     $('<div/>', {
-      class: 'col-md-1 draggable base ' + letterType,
+      class: 'col-md-1 letter draggable base ' + letterType,
       text: letter
     }).appendTo(el).draggable({
       revert: true, revertDuration: 0,
       start: function(event, ui) {
-        playSound($(event.target).text());
+        //playSound($(event.target).text());
       }
     }).data('letter', letter);
   }
 
   function createWord(el, word) {
+    var fullWord = word[0];
+    var gapWord = word[1];
     $('<div/>', {
       class: 'col-md-1'
-    }).appendTo(el).html('<img class="word-img" src="./img/' + word + '.jpg" class="thumbnail">');
-    word.split('').forEach(function(c) {
+    }).appendTo(el).html('<img class="word-img" src="./img/' + fullWord + '.jpg" class="thumbnail">');
+    gapWord.forEach(function(c) {
       $('<div/>', {
-        class: 'col-md-1 droppable base ' + getLetterType(c)
+        class: 'col-md-1 letter droppable base ' + getLetterType(c),
+        text: c
       }).appendTo(el).droppable({drop: onDrop}).data('letter', c);
     });
   }
@@ -57,18 +62,31 @@ $(function() {
     return words[Math.floor(Math.random() * (words.length))];
   }
 
-  $('#reload').click(function(){
+  function reloadWord() {
     var el = $('.word').get(0);
     $(el).html('');
     createWord(el, getRandomWord());
+    $('.letter').mousedown(function(ev){
+      playSound($(ev.target).text());
+    });
+  }
+
+  function createLetters() {
+    el = $('.letters').get(0);
+    var s = vowels + consonants;
+    s.split('').forEach(function(c) {
+      createLetter(el, c);
+    });
+  }
+
+  $('#reload').click(function(){
+    reloadWord();
   });
 
-  var el = $('.word').get(0);
-  createWord(el, getRandomWord());
+  $.getJSON('./data/words.json', function(data){
+    words = data;
 
-  el = $('.letters').get(0);
-  var s = vowels + consonants;
-  s.split('').forEach(function(c) {
-    createLetter(el, c);
+    createLetters();
+    reloadWord();
   });
 });

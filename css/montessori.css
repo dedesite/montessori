@@ -29,6 +29,10 @@
 	color: red;
 }
 
+.phonem {
+	color: green;
+}
+
 .droppable { 
  	background-color:lightgray;
  }
