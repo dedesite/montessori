@@ -1,9 +1,10 @@
 $(function() {
   var vowels = 'aâeéèêiïîouy';
   var consonants = 'bcçdfghjklmnpqrstvwxz';
-  var phonems = ['eil', 'ce', 'qu'];
+  var phonems = ['ou', 'ai', 'en', 'an', 'on', 'oi', 'ch', 'ette', 'qu', 'ill', 'tion', 'er', 'et', 'eau', 'gi', 'ain', 'ci', 'ce', 'œu', 'in', 'euil', 'ge', 'ien', 'ail', 'eu', 'gu', 'eil', 'ei', 'ph', 'oin'];
   var words = null;
   var currentWord = null;
+  var currentFullWord = null;
 
   function getLetterType(letter) {
     if(letter.length > 1)
@@ -25,10 +26,10 @@ $(function() {
   }
 
   function createWord(el, word) {
-    var fullWord = word.join('').replace('_', '');
+    currentFullWord = word.join('').replace('_', '');
     $('<div/>', {
       class: 'col-md-1'
-    }).appendTo(el).html('<img class="word-img" src="./img/' + fullWord + '.jpg" class="thumbnail">');
+    }).appendTo(el).html('<img class="word-img" src="./img/' + currentFullWord + '.jpg" class="thumbnail">');
     word.forEach(function(c) {
       var letter = c.replace('_', '');
       //Only display complex phonem and mute char
@@ -59,8 +60,8 @@ $(function() {
     }
   }
 
-  function playSound(letter) {
-    $('<audio autoplay="autoplay" type="audio/mp3" src="./sounds/' + letter + '.mp3"/>').appendTo('#app');
+  function playSound(name) {
+    $('<audio autoplay="autoplay" type="audio/mp3" src="./sounds/' + name + '.mp3"/>').appendTo('#app');
   }
 
   function getRandomWord() {
@@ -68,7 +69,7 @@ $(function() {
   }
 
   function onMouseDown(ev) {
-    playSound($(ev.target).text());
+    playSound("letters/" + $(ev.target).text());
   }
 
   function onRefresh() {
@@ -86,6 +87,8 @@ $(function() {
     $('#solution').click(function(){
       showSolution();
     });
+
+    playSound("words/" + currentFullWord);
   }
 
   function createLetters() {
@@ -129,6 +132,14 @@ $(function() {
 
   $('#show-letters').click(function(){
     createLetters();
+  });
+
+  $('#opt-phonems').click(function(){
+
+  });
+
+  $('#opt-mutes').click(function(){
+
   });
 
   $.getJSON('./data/words.json', function(data){
