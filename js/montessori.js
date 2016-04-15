@@ -1,10 +1,13 @@
 $(function() {
   var vowels = 'aâeéèêiïîouy';
   var consonants = 'bcçdfghjklmnpqrstvwxz';
-  var phonems = ['ou', 'ai', 'en', 'an', 'on', 'oi', 'ch', 'ette', 'qu', 'ill', 'tion', 'er', 'et', 'eau', 'gi', 'ain', 'ci', 'ce', 'œu', 'in', 'euil', 'ge', 'ien', 'ail', 'eu', 'gu', 'eil', 'ei', 'ph', 'oin'];
+  var phonems = ['ou', 'ai', 'en', 'an', 'on', 'oi', 'ch', 'ette', 'qu', 'ill', 'tion', 'er', 'et', 'eau', 'ain', 'œu', 'in', 'euil', 'ien', 'ail', 'eu', 'gu', 'eil', 'ei', 'ph', 'oin'];
   var words = null;
+  var multipleSoundsLetters = null;
   var currentWord = null;
   var currentFullWord = null;
+  var previousPlayedLetter = '';
+  var currentSoundIndex = 0;
 
   function getLetterType(letter) {
     if(letter.length > 1)
@@ -12,6 +15,7 @@ $(function() {
     else
       return vowels.search(letter) !== -1 ? 'vowel' : 'consonant';
   }
+
   function createLetter(el, letter) {
     var letterType = getLetterType(letter);
     $('<div/>', {
@@ -25,27 +29,81 @@ $(function() {
     }).data('letter', letter);
   }
 
+  //@return whereas the letter should not be pronounced
+  //they are preceed by a "_"
+  function letterIsMute(letter) {
+    return letter.length > 1 && letter[0] === '_';
+  }
+
+  //@return whereas the letter is a "complex phonem" (I don't know what is the right word)
+  //like "oi" "ou"
+  function letterIsPhonem(letter) {
+    return letter.length > 1 && letter.search('_') === -1;
+  }
+
+  //@return whereas the letter should be pronounced differently
+  //eg : "e" in "bec" sounds "bèc", the letter is written this way "e_è"
+  function letterSoundsDifferent(letter) {
+    return letter.length > 1 && letter[1] === '_';
+  }
+
+  //@return the letter that should be pronounced
+  //eg : "e" in "bec" should be pronounced "è"
+  function getLetterSound(letter) {
+    if(letterIsMute(letter))
+      return '';
+    else if(letterSoundsDifferent(letter))
+      return letter[2];
+    else
+      return letter;
+  }
+
+  //@return the character displayed in word to help children
+  //only complex phonem and mute char are displayed
+  function getDisplayedChar(letter) {
+    if(letterIsMute(letter))
+      return letter.replace('_', '');
+    else if(letterIsPhonem(letter))
+      return letter;
+    else
+      return '';
+  }
+
+  //@return the written letter
+  //eg : "e" for "bec"
+  function getLetter(letter) {
+    if(letterIsMute(letter))
+      return letter.replace('_', '');
+    else if(letterSoundsDifferent(letter))
+      return letter[0];
+    else
+      return letter;
+  }
+
   function createWord(el, word) {
-    currentFullWord = word.join('').replace('_', '');
+    currentFullWord = '';
+    word.forEach(function(c) {
+      var letterSound = getLetterSound(c);
+      var displayedChar = getDisplayedChar(c);
+      var letter = getLetter(c);
+      var letterType = getLetterType(c);
+      currentFullWord += letter;
+      $('<div/>', {
+        class: 'col-md-1 letter droppable base ' + letterType,
+        text: displayedChar
+      }).appendTo(el).droppable({drop: onDrop}).data('letter', letter).data('sound', letterSound);
+    });
+
     $('<div/>', {
       class: 'col-md-1'
     }).appendTo(el).html('<img class="word-img" src="./img/' + currentFullWord + '.jpg" class="thumbnail">');
-    word.forEach(function(c) {
-      var letter = c.replace('_', '');
-      //Only display complex phonem and mute char
-      var displayedChar = c.length > 1 ? letter : '';
-      $('<div/>', {
-        class: 'col-md-1 letter droppable base ' + getLetterType(c),
-        text: displayedChar
-      }).appendTo(el).droppable({drop: onDrop}).data('letter', letter);
-    });
+
     return word;
   }
 
   function onDrop(event, ui ) {
     var dropLetter = $(ui.draggable).data('letter');
     var wantedLetter = $(this).data('letter');
-
     if(dropLetter == wantedLetter)
     {
       playSound('good');
@@ -69,7 +127,18 @@ $(function() {
   }
 
   function onMouseDown(ev) {
-    playSound("letters/" + $(ev.target).text());
+    var letter = $(ev.target).text();
+    if(previousPlayedLetter === letter && multipleSoundsLetters[letter] != null){
+      currentSoundIndex++;
+      var size = multipleSoundsLetters[letter].length;
+      currentSoundIndex = currentSoundIndex % size;
+      letter = multipleSoundsLetters[letter][currentSoundIndex];
+    }
+    else{
+      currentSoundIndex = 0;
+    }
+    previousPlayedLetter = $(ev.target).text();
+    playSound("letters/" + letter);
   }
 
   function onRefresh() {
@@ -143,8 +212,8 @@ $(function() {
   });
 
   $.getJSON('./data/words.json', function(data){
-    words = data;
-
+    words = data.words;
+    multipleSoundsLetters = data.multiple_sounds_letters;
     createLetters();
     reloadWord();
   });

@@ -7,11 +7,12 @@ Dictée Montessori
 * Play animations on wrong, good and end
 * Maybe choose letter order and font (lower and upper, cursive or not)
 * Sort words regarding their difficulty or specific phonem learning
-* Maybe have different sound for the same letter ? But how can we do that for phonems (like eil, ou, oi etc.)
+* Avoir plusieurs sons pour la même lettre qu'on peut écouter à chaque fois que l'on clique dessus.
 * Avec un autre niveau de difficulté, permettre l'écoute des 31 phonèmes complexes montessori pour s'aider à trouver des mots comme chat, soleil, roi tout seul sans que le phonème soit déjà positionné
-* Jouer le son du mot au début
 * Peut-être précharger tous les sons au début (voir avec un loader)
 * Gérer les erreurs sur le fichier JSON et sur les mots et son manquant
+* Pouvoir définir quelle lettre sera prononcé en fonction du mot (ex: bèc pour bec)
+* Jouer toutes les lettres et le son du mot à la fin avec une petite animation
 
 ## Pour rajouter des mots
 
