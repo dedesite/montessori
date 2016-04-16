@@ -211,10 +211,8 @@ $(function() {
 
   });
 
-  $.getJSON('./data/words.json', function(data){
-    words = data.words;
-    multipleSoundsLetters = data.multiple_sounds_letters;
-    createLetters();
-    reloadWord();
-  });
+  words = data.words;
+  multipleSoundsLetters = data.multiple_sounds_letters;
+  createLetters();
+  reloadWord();
 });
