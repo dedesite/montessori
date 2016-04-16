@@ -11,7 +11,7 @@ Dictée Montessori
 * Gérer les erreurs sur le fichier JSON et sur les mots et son manquant
 * Jouer toutes les lettres et le son du mot à la fin avec une petite animation
 * Pouvoir changer l'ordre d'affichage des lettres (alphabétique ou voyelles/consonnes)
-* Bug : quand on clique par exemple sur le "e" muet d'un mot, ça joue le son de la lettre et pas le bon en plus
+
 
 ## Pour rajouter des mots
 
