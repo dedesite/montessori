@@ -174,20 +174,21 @@ $(function() {
 
   function onMouseDown(ev) {
     var letter = $(ev.target).text();
-    if(letterHasMultipleSound(letter)){
+    if(previousPlayedLetter !== letter) {
+      if(letterHasMultipleSound(previousPlayedLetter)){
+        $('#' + previousPlayedLetter).removeClass('sound-' + currentSoundIndex);
+        $('#' + previousPlayedLetter).addClass('sound-0');
+      }
+      currentSoundIndex = 0;
+      previousPlayedLetter = letter;
+    }
+    if(letterHasMultipleSound(letter) && (previousPlayedLetter === '' || previousPlayedLetter === letter)){
       $(ev.target).removeClass('sound-' + currentSoundIndex);
       var size = multipleSoundsLetters[letter].length;
       letter = multipleSoundsLetters[letter][currentSoundIndex];
       currentSoundIndex++;
       currentSoundIndex = currentSoundIndex % size;
       $(ev.target).addClass('sound-' + currentSoundIndex);
-    }
-    else if(previousPlayedLetter !== letter) {
-      if(letterHasMultipleSound(previousPlayedLetter)){
-        $('#' + previousPlayedLetter).removeClass('sound-' + currentSoundIndex);
-        $('#' + previousPlayedLetter).addClass('sound-0');
-      }
-      currentSoundIndex = 0;
     }
     previousPlayedLetter = $(ev.target).text();
     playSound("letters/" + letter);
