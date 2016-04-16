@@ -10,25 +10,16 @@ $(function() {
   var currentSoundIndex = 0;
   var optionDisplayPhonem = true;
   var optionDisplayMute = true;
+  var optionUpperCase = false;
+  var optionScript = false;
+  var optionPhonemInPanel = false;
+  var solutionDisplayed = false;
 
   function getLetterType(letter) {
     if(letter.length > 1)
       return letter[0] === '_' ? 'mute' : 'phonem';
     else
       return vowels.search(letter) !== -1 ? 'vowel' : 'consonant';
-  }
-
-  function createLetter(el, letter) {
-    var letterType = getLetterType(letter);
-    $('<div/>', {
-      class: 'col-md-1 letter draggable base ' + letterType,
-      text: letter
-    }).appendTo(el).draggable({
-      revert: true, revertDuration: 0,
-      start: function(event, ui) {
-        //playSound($(event.target).text());
-      }
-    }).data('letter', letter);
   }
 
   //@return whereas the letter should not be pronounced
@@ -82,6 +73,10 @@ $(function() {
       return letter;
   }
 
+  function applyCase(letter) {
+    return optionUpperCase ? letter.toUpperCase() : letter;
+  }
+
   function createWord(el, word) {
     $(el).html('');
     currentFullWord = '';
@@ -90,10 +85,11 @@ $(function() {
       var displayedChar = getDisplayedChar(c);
       var letter = getLetter(c);
       var letterType = getLetterType(c);
+      var cursive = optionScript ? '' : 'cursive';
       currentFullWord += letter;
       var letterEl = $('<div/>', {
-        class: 'col-md-1 letter droppable base ' + letterType,
-        text: displayedChar
+        class: 'col-md-1 letter droppable base ' + letterType + ' ' + cursive,
+        text: applyCase(displayedChar)
       }).appendTo(el).data('letter', letter).data('sound', letterSound);
       if(displayedChar === '')
         letterEl.droppable({drop: onDrop});
@@ -155,6 +151,8 @@ $(function() {
     var el = $('.word').get(0);
     currentWord = createWord(el, getRandomWord());
     onRefresh();
+
+    solutionDisplayed = false;
     el = $('.sol').get(0);
     $(el).html('<button id="solution" class="btn">Solution</button>');
     $('#solution').click(function(){
@@ -162,6 +160,20 @@ $(function() {
     });
 
     playSound("words/" + currentFullWord);
+  }
+
+  function createLetter(el, letter) {
+    var letterType = getLetterType(letter);
+    var cursive = optionScript ? '' : 'cursive';
+    $('<div/>', {
+      class: 'col-md-1 letter draggable base ' + letterType + ' ' + cursive,
+      text: applyCase(letter)
+    }).appendTo(el).draggable({
+      revert: true, revertDuration: 0,
+      start: function(event, ui) {
+        //playSound($(event.target).text());
+      }
+    }).data('letter', letter);
   }
 
   function createLetterPanel(letters) {
@@ -183,41 +195,66 @@ $(function() {
   }
 
   function showSolution() {
+    solutionDisplayed = true;
     var el = $('.sol').get(0);
     $(el).html('');
+    var cursive = optionScript ? '' : 'cursive';
     currentWord.forEach(function(c){
-      var letter = c.replace('_', '');
+      var letter = getLetter(c);
       $('<div/>', {
-        class: 'solution ' + getLetterType(letter),
-        text: letter
+        class: 'solution ' + getLetterType(letter) + ' ' + cursive,
+        text: applyCase(letter)
       }).appendTo(el)
     })
+  }
+
+  function refreshPanel() {
+    optionPhonemInPanel ? createPhonems() : createLetters();
+  }
+
+  function refreshWord() {
+    var el = $('.word').get(0);
+    createWord(el, currentWord);
   }
 
   $('#reload').click(function(){
     reloadWord();
   });
 
-  $('#show-phonems').click(function(){
-    createPhonems();
-  });
-
-  $('#show-letters').click(function(){
-    createLetters();
+  $('#opt-phonems-panel').click(function(){
+    optionPhonemInPanel = !optionPhonemInPanel;
+    $('#opt-phonems-panel').text(optionPhonemInPanel ? 'Lettres' : 'Phonèmes');
+    refreshPanel();
   });
 
   $('#opt-phonems').click(function(){
     optionDisplayPhonem = !optionDisplayPhonem;
-    $('#opt-phonems').text(optionDisplayPhonem ? "Cacher phonèmes" : "Afficher phonèmes");
-    var el = $('.word').get(0);
-    createWord(el, currentWord);
+    $('#opt-phonems').text(optionDisplayPhonem ? 'Cacher phonèmes' : 'Afficher phonèmes');
+    refreshWord();
   });
 
   $('#opt-mutes').click(function(){
     optionDisplayMute = !optionDisplayMute;
-    $('#opt-mutes').text(optionDisplayMute ? "Cacher muettes" : "Afficher muettes");
-    var el = $('.word').get(0);
-    createWord(el, currentWord);
+    $('#opt-mutes').text(optionDisplayMute ? 'Cacher muettes' : 'Afficher muettes');
+    refreshWord();
+  });
+
+  $('#opt-upper').click(function(){
+    optionUpperCase = !optionUpperCase;
+    $('#opt-upper').text(optionUpperCase ? 'Minuscules' : 'Majuscules');
+    refreshPanel();
+    refreshWord();
+    if(solutionDisplayed)
+      showSolution();
+  });
+
+  $('#opt-script').click(function(){
+    optionScript = !optionScript;
+    $('#opt-script').text(optionScript ? 'Cursive' : 'Script');
+    refreshPanel();
+    refreshWord();
+    if(solutionDisplayed)
+      showSolution();
   });
 
   words = data.words;
