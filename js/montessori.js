@@ -8,6 +8,8 @@ $(function() {
   var currentFullWord = null;
   var previousPlayedLetter = '';
   var currentSoundIndex = 0;
+  var optionDisplayPhonem = true;
+  var optionDisplayMute = true;
 
   function getLetterType(letter) {
     if(letter.length > 1)
@@ -62,9 +64,9 @@ $(function() {
   //only complex phonem and mute char are displayed
   function getDisplayedChar(letter) {
     if(letterIsMute(letter))
-      return letter.replace('_', '');
+      return optionDisplayMute ? letter.replace('_', '') : '';
     else if(letterIsPhonem(letter))
-      return letter;
+      return optionDisplayPhonem ? letter : '';
     else
       return '';
   }
@@ -81,6 +83,7 @@ $(function() {
   }
 
   function createWord(el, word) {
+    $(el).html('');
     currentFullWord = '';
     word.forEach(function(c) {
       var letterSound = getLetterSound(c);
@@ -88,15 +91,17 @@ $(function() {
       var letter = getLetter(c);
       var letterType = getLetterType(c);
       currentFullWord += letter;
-      $('<div/>', {
+      var letterEl = $('<div/>', {
         class: 'col-md-1 letter droppable base ' + letterType,
         text: displayedChar
-      }).appendTo(el).droppable({drop: onDrop}).data('letter', letter).data('sound', letterSound);
+      }).appendTo(el).data('letter', letter).data('sound', letterSound);
+      if(displayedChar === '')
+        letterEl.droppable({drop: onDrop});
     });
 
     $('<div/>', {
       class: 'col-md-1'
-    }).appendTo(el).html('<img class="word-img" src="./img/' + currentFullWord + '.jpg" class="thumbnail">');
+    }).prependTo(el).html('<img class="word-img" src="./img/' + currentFullWord + '.jpg" class="thumbnail">');
 
     return word;
   }
@@ -148,7 +153,6 @@ $(function() {
 
   function reloadWord() {
     var el = $('.word').get(0);
-    $(el).html('');
     currentWord = createWord(el, getRandomWord());
     onRefresh();
     el = $('.sol').get(0);
@@ -204,11 +208,17 @@ $(function() {
   });
 
   $('#opt-phonems').click(function(){
-
+    optionDisplayPhonem = !optionDisplayPhonem;
+    $('#opt-phonems').text(optionDisplayPhonem ? "Cacher phonèmes" : "Afficher phonèmes");
+    var el = $('.word').get(0);
+    createWord(el, currentWord);
   });
 
   $('#opt-mutes').click(function(){
-
+    optionDisplayMute = !optionDisplayMute;
+    $('#opt-mutes').text(optionDisplayMute ? "Cacher muettes" : "Afficher muettes");
+    var el = $('.word').get(0);
+    createWord(el, currentWord);
   });
 
   words = data.words;
