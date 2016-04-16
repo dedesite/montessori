@@ -127,15 +127,25 @@ $(function() {
     return words[Math.floor(Math.random() * (words.length))];
   }
 
+  function letterHasMultipleSound(letter) {
+    return multipleSoundsLetters[letter] != null;
+  }
+
   function onMouseDown(ev) {
     var letter = $(ev.target).text();
-    if(previousPlayedLetter === letter && multipleSoundsLetters[letter] != null){
+    if(letterHasMultipleSound(letter)){
+      $(ev.target).removeClass('sound-' + currentSoundIndex);
       currentSoundIndex++;
       var size = multipleSoundsLetters[letter].length;
       currentSoundIndex = currentSoundIndex % size;
       letter = multipleSoundsLetters[letter][currentSoundIndex];
+      $(ev.target).addClass('sound-' + currentSoundIndex);
     }
-    else{
+    else if(previousPlayedLetter !== letter) {
+      if(letterHasMultipleSound(previousPlayedLetter)){
+        $('#' + previousPlayedLetter).removeClass('sound-' + currentSoundIndex);
+        $('#' + previousPlayedLetter).addClass('sound-0');
+      }
       currentSoundIndex = 0;
     }
     previousPlayedLetter = $(ev.target).text();
@@ -165,9 +175,11 @@ $(function() {
   function createLetter(el, letter) {
     var letterType = getLetterType(letter);
     var cursive = optionScript ? '' : 'cursive';
+    var sound = letterHasMultipleSound(letter) ? 'sound-0' : ''
     $('<div/>', {
-      class: 'col-md-1 letter draggable base ' + letterType + ' ' + cursive,
-      text: applyCase(letter)
+      class: 'col-md-1 letter draggable base ' + letterType + ' ' + cursive + ' ' + sound,
+      text: applyCase(letter),
+      id: letter
     }).appendTo(el).draggable({
       revert: true, revertDuration: 0,
       start: function(event, ui) {

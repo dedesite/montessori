@@ -5,14 +5,12 @@ Dictée Montessori
 
 * Horizontally and vertically center image
 * Play animations on wrong, good and end
-* Maybe choose letter order and font (lower and upper, cursive or not)
 * Sort words regarding their difficulty or specific phonem learning
-* Avoir plusieurs sons pour la même lettre qu'on peut écouter à chaque fois que l'on clique dessus.
 * Avec un autre niveau de difficulté, permettre l'écoute des 31 phonèmes complexes montessori pour s'aider à trouver des mots comme chat, soleil, roi tout seul sans que le phonème soit déjà positionné
 * Peut-être précharger tous les sons au début (voir avec un loader)
 * Gérer les erreurs sur le fichier JSON et sur les mots et son manquant
-* Pouvoir définir quelle lettre sera prononcé en fonction du mot (ex: bèc pour bec)
 * Jouer toutes les lettres et le son du mot à la fin avec une petite animation
+* Pouvoir changer l'ordre d'affichage des lettres (alphabétique ou voyelles/consonnes)
 
 ## Pour rajouter des mots
 
