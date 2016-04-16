@@ -88,7 +88,7 @@ $(function() {
       var cursive = optionScript ? '' : 'cursive';
       currentFullWord += letter;
       var letterEl = $('<div/>', {
-        class: 'col-md-1 letter droppable base ' + letterType + ' ' + cursive,
+        class: 'col-md-1 word-letter letter droppable base ' + letterType + ' ' + cursive,
         text: applyCase(displayedChar)
       }).appendTo(el).data('letter', letter).data('sound', letterSound);
       if(displayedChar === '')
@@ -105,20 +105,58 @@ $(function() {
     return word;
   }
 
+  function isWordCompleted() {
+    var ok = true;
+    $('.word-letter').each(function(ind, letter) {
+      ok = $(letter).text() === getLetter(currentWord[ind]);
+      console.log('letter', $(letter).text(), 'current', currentWord[ind]);
+      return ok;
+    });
+    return ok;
+  }
+
+  function playEndAnimation() {
+    console.log("play");
+    playSound('finish');
+    var ind = 0;
+    var nbBefore = 0;
+    var interval = setInterval(function(){
+      //Really hacky, didn't want to create another timeout
+      if(nbBefore <= 2){
+        if(nbBefore === 0)
+          playSound('mot juste');
+        nbBefore++;
+        return;
+      }
+      if(ind >= currentWord.length) {
+        playSound('words/' + currentFullWord);
+        clearInterval(interval);
+      }
+      else {
+        playSound('letters/' + getLetterSound(currentWord[ind]));
+      }
+      ind++;
+    }, 800);
+
+  }
+
   function onDrop(event, ui ) {
     var dropLetter = $(ui.draggable).data('letter');
     var wantedLetter = $(this).data('letter');
     if(dropLetter == wantedLetter)
     {
-      playSound('good');
+      playSound('juste');
       $(this)
         .removeClass('droppable')
         .addClass('good')
         .text(wantedLetter);
+      if(isWordCompleted()) {
+        playEndAnimation();
+      }
     }
     else
     {
-      playSound('wrong');
+      playSound('faux');
     }
   }
 
@@ -138,10 +176,10 @@ $(function() {
     var letter = $(ev.target).text();
     if(letterHasMultipleSound(letter)){
       $(ev.target).removeClass('sound-' + currentSoundIndex);
-      currentSoundIndex++;
       var size = multipleSoundsLetters[letter].length;
-      currentSoundIndex = currentSoundIndex % size;
       letter = multipleSoundsLetters[letter][currentSoundIndex];
+      currentSoundIndex++;
+      currentSoundIndex = currentSoundIndex % size;
       $(ev.target).addClass('sound-' + currentSoundIndex);
     }
     else if(previousPlayedLetter !== letter) {
