@@ -194,9 +194,16 @@ $(function() {
     playSound("letters/" + letter);
   }
 
+  function onWordLetterDown(ev) {
+    if($(ev.target).text() !== '')
+      playSound("letters/" + $(ev.target).data('sound'));
+  }
+
   function onRefresh() {
-    $('.letter').off('mousedown', onMouseDown);
-    $('.letter').mousedown(onMouseDown);
+    $('.panel-letter').off('mousedown', onMouseDown);
+    $('.panel-letter').mousedown(onMouseDown);
+    $('.word-letter').off('mousedown', onWordLetterDown);
+    $('.word-letter').mousedown(onWordLetterDown);
   }
 
   function reloadWord() {
@@ -219,7 +226,7 @@ $(function() {
     var cursive = optionScript ? '' : 'cursive';
     var sound = letterHasMultipleSound(letter) ? 'sound-0' : ''
     $('<div/>', {
-      class: 'col-md-1 letter draggable base ' + letterType + ' ' + cursive + ' ' + sound,
+      class: 'col-md-1 panel-letter letter draggable base ' + letterType + ' ' + cursive + ' ' + sound,
       text: applyCase(letter),
       id: letter
     }).appendTo(el).draggable({
