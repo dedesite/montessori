@@ -99,6 +99,9 @@ $(function() {
       class: 'col-md-1'
     }).prependTo(el).html('<img class="word-img" src="./img/' + currentFullWord + '.jpg" class="thumbnail">');
 
+    $('.word-img').click(function(){
+      playSound('words/' + currentFullWord);
+    })
     return word;
   }
 
