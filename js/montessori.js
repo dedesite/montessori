@@ -164,23 +164,22 @@ $(function() {
     playSound("words/" + currentFullWord);
   }
 
-  function createLetters() {
+  function createLetterPanel(letters) {
     el = $('.letters').get(0);
     $(el).html('');
-    var s = vowels + consonants;
-    s.split('').forEach(function(c) {
-      createLetter(el, c);
+    letters.forEach(function(l) {
+      createLetter(el, l);
     });
     onRefresh();
   }
 
+  function createLetters() {
+    var s = vowels + consonants;
+    createLetterPanel(s.split(''));
+  }
+
   function createPhonems() {
-    el = $('.letters').get(0);
-    $(el).html('');
-    phonems.forEach(function(phonem) {
-      createLetter(el, phonem);
-    });
-    onRefresh();
+    createLetterPanel(phonems);
   }
 
   function showSolution() {
