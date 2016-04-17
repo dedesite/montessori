@@ -221,12 +221,14 @@ $(function() {
   function reloadWord() {
     var el = $('.word').get(0);
     currentWord = createWord(el, getRandomWord());
-    $(el).append('<div class="base col-md-1 navbar-right reload"><button id="reload" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-refresh"></span></button></div>');
+    //Put the reload word button at the right
+    $(el).append('<div class="base col-md-1 navbar-right"><button id="reload" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-refresh"></span></button></div>');
+    //Then the solution button
+    $(el).append('<div class="base col-md-2 navbar-right sol"><button id="solution" class="btn btn-primary btn-lg">?</button></div>');
     onRefresh();
 
     solutionDisplayed = false;
-    el = $('.sol').get(0);
-    $(el).html('<button id="solution" class="btn">Solution</button>');
+    $('#solution').off('click');
     $('#solution').click(function(){
       showSolution();
     });
