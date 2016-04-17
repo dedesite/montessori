@@ -211,11 +211,17 @@ $(function() {
       optionPhonemInPanel = !optionPhonemInPanel;
       refreshPanel();
     });
+
+    $('#reload').off('click');
+    $('#reload').click(function(){
+      reloadWord();
+    });
   }
 
   function reloadWord() {
     var el = $('.word').get(0);
     currentWord = createWord(el, getRandomWord());
+    $(el).append('<div class="base col-md-1 navbar-right reload"><button id="reload" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-refresh"></span></button></div>');
     onRefresh();
 
     solutionDisplayed = false;
@@ -287,10 +293,6 @@ $(function() {
     var el = $('.word').get(0);
     createWord(el, currentWord);
   }
-
-  $('#reload').click(function(){
-    reloadWord();
-  });
 
   $('#opt-phonems').click(function(){
     optionDisplayPhonem = !optionDisplayPhonem;

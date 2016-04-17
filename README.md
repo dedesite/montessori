@@ -4,14 +4,13 @@ Dictée Montessori
 ## TODO
 
 * Horizontally and vertically center image
-* Play animations on wrong, good and end
 * Sort words regarding their difficulty or specific phonem learning
-* Avec un autre niveau de difficulté, permettre l'écoute des 31 phonèmes complexes montessori pour s'aider à trouver des mots comme chat, soleil, roi tout seul sans que le phonème soit déjà positionné
 * Peut-être précharger tous les sons au début (voir avec un loader)
 * Gérer les erreurs sur le fichier JSON et sur les mots et son manquant
-* Jouer toutes les lettres et le son du mot à la fin avec une petite animation
 * Pouvoir changer l'ordre d'affichage des lettres (alphabétique ou voyelles/consonnes)
-
+* Ajouter les touch event pour rendre le site compatible tablette et smartphone
+* Revoir peut-être l'html pour être plus responsive
+* Revoir la gestion des events jquery et de la génération html pour ne pas avoir à tout refaire à chaque fois
 
 ## Pour rajouter des mots
 
