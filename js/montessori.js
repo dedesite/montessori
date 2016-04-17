@@ -109,14 +109,12 @@ $(function() {
     var ok = true;
     $('.word-letter').each(function(ind, letter) {
       ok = $(letter).text() === getLetter(currentWord[ind]);
-      console.log('letter', $(letter).text(), 'current', currentWord[ind]);
       return ok;
     });
     return ok;
   }
 
   function playEndAnimation() {
-    console.log("play");
     playSound('finish');
     var ind = 0;
     var nbBefore = 0;
@@ -131,13 +129,16 @@ $(function() {
       if(ind >= currentWord.length) {
         playSound('words/' + currentFullWord);
         clearInterval(interval);
+        //Then start a new word after 3s
+        setTimeout(function(){
+          reloadWord();
+        }, 3000);
       }
       else {
         playSound('letters/' + getLetterSound(currentWord[ind]));
       }
       ind++;
     }, 800);
-
   }
 
   function onDrop(event, ui ) {
