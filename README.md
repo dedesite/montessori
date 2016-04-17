@@ -11,6 +11,7 @@ Dictée Montessori
 * Ajouter les touch event pour rendre le site compatible tablette et smartphone
 * Revoir peut-être l'html pour être plus responsive
 * Revoir la gestion des events jquery et de la génération html pour ne pas avoir à tout refaire à chaque fois
+* Ajouter un système de points avec le nom des enfants
 
 ## Pour rajouter des mots
 

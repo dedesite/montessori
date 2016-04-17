@@ -99,6 +99,18 @@ $(function() {
       class: 'col-md-1'
     }).prependTo(el).html('<img class="word-img" src="./img/' + currentFullWord + '.jpg" class="thumbnail">');
 
+    //Put the reload word button at the right
+    $(el).append('<div class="base col-md-1 navbar-right"><button id="reload" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-refresh"></span></button></div>');
+    //Then the solution button
+    $(el).append('<div class="base col-md-2 navbar-right sol"><button id="solution" class="btn btn-primary btn-lg">?</button></div>');
+    onRefresh();
+
+    solutionDisplayed = false;
+    $('#solution').off('click');
+    $('#solution').click(function(){
+      showSolution();
+    });
+
     $('.word-img').click(function(){
       playSound('words/' + currentFullWord);
     })
@@ -221,18 +233,6 @@ $(function() {
   function reloadWord() {
     var el = $('.word').get(0);
     currentWord = createWord(el, getRandomWord());
-    //Put the reload word button at the right
-    $(el).append('<div class="base col-md-1 navbar-right"><button id="reload" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-refresh"></span></button></div>');
-    //Then the solution button
-    $(el).append('<div class="base col-md-2 navbar-right sol"><button id="solution" class="btn btn-primary btn-lg">?</button></div>');
-    onRefresh();
-
-    solutionDisplayed = false;
-    $('#solution').off('click');
-    $('#solution').click(function(){
-      showSolution();
-    });
-
     playSound("words/" + currentFullWord);
   }
 
@@ -325,6 +325,12 @@ $(function() {
     if(solutionDisplayed)
       showSolution();
   });
+
+  $('#show-toolbar').click(function(){
+    $('.toolbar').toggle();
+  });
+  //Hide it at the begining
+  $('.toolbar').toggle();
 
   words = data.words;
   multipleSoundsLetters = data.multiple_sounds_letters;
