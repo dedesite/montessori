@@ -204,6 +204,12 @@ $(function() {
     $('.panel-letter').mousedown(onMouseDown);
     $('.word-letter').off('mousedown', onWordLetterDown);
     $('.word-letter').mousedown(onWordLetterDown);
+
+    $('#opt-phonems-panel').off('click');
+    $('#opt-phonems-panel').click(function(){
+      optionPhonemInPanel = !optionPhonemInPanel;
+      refreshPanel();
+    });
   }
 
   function reloadWord() {
@@ -243,6 +249,9 @@ $(function() {
     letters.forEach(function(l) {
       createLetter(el, l);
     });
+    var arrow = optionPhonemInPanel ? 'glyphicon-arrow-left' : 'glyphicon-arrow-right';
+    var btn = '<div class="col-md-1 base letter"><button id="opt-phonems-panel" type="button" class="btn btn-primary btn-lg"><span class="glyphicon ' + arrow + '" aria-hidden="true"></span></button></div>';
+    $(el).append(btn);
     onRefresh();
   }
 
@@ -280,12 +289,6 @@ $(function() {
 
   $('#reload').click(function(){
     reloadWord();
-  });
-
-  $('#opt-phonems-panel').click(function(){
-    optionPhonemInPanel = !optionPhonemInPanel;
-    $('#opt-phonems-panel').text(optionPhonemInPanel ? 'Lettres' : 'Phonèmes');
-    refreshPanel();
   });
 
   $('#opt-phonems').click(function(){
