@@ -13,6 +13,7 @@ $(function() {
   var optionUpperCase = false;
   var optionScript = false;
   var optionPhonemInPanel = false;
+  var optionAlphabeticOrder = false;
   var solutionDisplayed = false;
 
   function getLetterType(letter) {
@@ -268,6 +269,8 @@ $(function() {
 
   function createLetters() {
     var s = vowels + consonants;
+    if(optionAlphabeticOrder)
+      s = s.split('').sort().join('');
     createLetterPanel(s.split(''));
   }
 
@@ -326,6 +329,12 @@ $(function() {
     refreshWord();
     if(solutionDisplayed)
       showSolution();
+  });
+
+  $('#opt-alphabetic-order').click(function(){
+    optionAlphabeticOrder = !optionAlphabeticOrder;
+    $('#opt-alphabetic-order').text(optionAlphabeticOrder ? 'Consonnes/Voyelles' : 'Ordre Alphabétique');
+    refreshPanel();
   });
 
   $('#show-toolbar').click(function(){

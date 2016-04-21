@@ -7,11 +7,13 @@ Dictée Montessori
 * Sort words regarding their difficulty or specific phonem learning
 * Peut-être précharger tous les sons au début (voir avec un loader)
 * Gérer les erreurs sur le fichier JSON et sur les mots et son manquant
-* Pouvoir changer l'ordre d'affichage des lettres (alphabétique ou voyelles/consonnes)
 * Ajouter les touch event pour rendre le site compatible tablette et smartphone
 * Revoir peut-être l'html pour être plus responsive
 * Revoir la gestion des events jquery et de la génération html pour ne pas avoir à tout refaire à chaque fois
 * Ajouter un système de points avec le nom des enfants
+* Ajouter un niveau de difficulté sans les phonèmes complexes et en dissociant toutes les lettres
+* Supprimer les majuscules pour le cursive
+* Pouvoir choisir son mot via une drop down
 
 ## Pour rajouter des mots
 
