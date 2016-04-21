@@ -1,7 +1,7 @@
 $(function() {
   var vowels = 'aâeéèêiïîouy';
   var consonants = 'bcçdfghjklmnpqrstvwxz';
-  var phonems = ['ou', 'ai', 'en', 'an', 'on', 'oi', 'ch', 'ette', 'qu', 'ill', 'tion', 'er', 'et', 'eau', 'ain', 'œu', 'in', 'euil', 'ien', 'ail', 'eu', 'gu', 'eil', 'eille', 'ei', 'ph', 'oin', 'ein', 'ed'];
+  var phonems = ['ou', 'ai', 'ei', 'er', 'ed', 'et', 'ette', 'en', 'an', 'on', 'tion', 'oi', 'oin', 'ch', 'ph', 'gu', 'qu', 'eau', 'ain', 'in','ein', 'ien', 'œu', 'eu', 'ill', 'euil', 'ail', 'eil', 'eille'];
   var words = null;
   var multipleSoundsLetters = null;
   var currentWord = null;
