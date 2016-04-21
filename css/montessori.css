@@ -44,10 +44,6 @@ body {
 	color: red;
 }
 
-.phonem {
-	color: green;
-}
-
 .mute {
 	color: grey;
 }
@@ -55,6 +51,11 @@ body {
 .droppable { 
  	background-color:lightgray;
  }
+
+.phonem {
+	color: green;
+	background-color: #d48989;
+}
 
 .good {
 	background-color:lightgreen;
