@@ -16,8 +16,10 @@ $(function() {
   var solutionDisplayed = false;
 
   function getLetterType(letter) {
-    if(letter.length > 1)
-      return letter[0] === '_' ? 'mute' : 'phonem';
+    if(letterIsPhonem(letter))
+      return 'phonem';
+    else if(letterIsMute(letter))
+      return 'mute';
     else
       return vowels.search(letter) !== -1 ? 'vowel' : 'consonant';
   }
