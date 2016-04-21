@@ -82,22 +82,35 @@ $(function() {
     return optionUpperCase ? letter.toUpperCase() : letter;
   }
 
+  function createWordLetter(el, letter) {
+    var letterType = getLetterType(letter);
+    var letterSound = getLetterSound(letter);
+    var displayedChar = getDisplayedChar(letter);
+    var letterData = getLetter(letter);
+
+    var cursive = optionScript ? '' : 'cursive';
+    currentFullWord += letterData;
+    var letterEl = $('<div/>', {
+      class: 'col-md-1 word-letter letter droppable base ' + letterType + ' ' + cursive,
+      text: applyCase(displayedChar)
+    }).appendTo(el).data('letter', letterData).data('sound', letterSound);
+    if(displayedChar === '')
+      letterEl.droppable({drop: onDrop});  
+  }
+
   function createWord(el, word) {
     $(el).html('');
     currentFullWord = '';
     word.forEach(function(c) {
-      var letterSound = getLetterSound(c);
-      var displayedChar = getDisplayedChar(c);
-      var letter = getLetter(c);
       var letterType = getLetterType(c);
-      var cursive = optionScript ? '' : 'cursive';
-      currentFullWord += letter;
-      var letterEl = $('<div/>', {
-        class: 'col-md-1 word-letter letter droppable base ' + letterType + ' ' + cursive,
-        text: applyCase(displayedChar)
-      }).appendTo(el).data('letter', letter).data('sound', letterSound);
-      if(displayedChar === '')
-        letterEl.droppable({drop: onDrop});
+      if(letterType === 'phonem' && optionSeparatePhonems){
+        c.split('').forEach(function(l) {
+          createWordLetter(el, l);
+        });
+      }
+      else{
+        createWordLetter(el, c);
+      }
     });
 
     $('<div/>', {
@@ -125,7 +138,7 @@ $(function() {
   function isWordCompleted() {
     var ok = true;
     $('.word-letter').each(function(ind, letter) {
-      ok = $(letter).text() === getLetter(currentWord[ind]);
+      ok = $(letter).text() !== '';
       return ok;
     });
     return ok;
@@ -263,9 +276,12 @@ $(function() {
     letters.forEach(function(l) {
       createLetter(el, l);
     });
-    var arrow = optionPhonemInPanel ? 'glyphicon-arrow-left' : 'glyphicon-arrow-right';
-    var btn = '<div class="col-md-1 base letter"><button id="opt-phonems-panel" type="button" class="btn btn-primary btn-lg"><span class="glyphicon ' + arrow + '" aria-hidden="true"></span></button></div>';
-    $(el).append(btn);
+    //Do not display phonem panels when seprate phonems option is on
+    if(!optionSeparatePhonems) {
+      var arrow = optionPhonemInPanel ? 'glyphicon-arrow-left' : 'glyphicon-arrow-right';
+      var btn = '<div class="col-md-1 base letter"><button id="opt-phonems-panel" type="button" class="btn btn-primary btn-lg"><span class="glyphicon ' + arrow + '" aria-hidden="true"></span></button></div>';
+      $(el).append(btn);
+    }
     onRefresh();
   }
 
@@ -342,6 +358,11 @@ $(function() {
   $('#opt-separate-phonems').click(function(){
     optionSeparatePhonems = !optionSeparatePhonems;
     $('#opt-separate-phonems').text(optionSeparatePhonems ? 'Grouper phonèmes' : 'Dégrouper phonèmes');
+    if(optionSeparatePhonems) {
+      optionPhonemInPanel = false;
+    }
+    refreshWord();
+    refreshPanel();
   });
 
   $('#show-toolbar').click(function(){
