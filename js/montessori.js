@@ -14,7 +14,9 @@ $(function() {
   var optionScript = false;
   var optionPhonemInPanel = false;
   var optionAlphabeticOrder = false;
+  var optionSeparatePhonems = false;
   var solutionDisplayed = false;
+
 
   function getLetterType(letter) {
     if(letterIsPhonem(letter))
@@ -270,7 +272,7 @@ $(function() {
   function createLetters() {
     var s = vowels + consonants;
     if(optionAlphabeticOrder)
-      s = s.split('').sort().join('');
+      s = s.split('').sort(function(a, b){return a.localeCompare(b);}).join('');
     createLetterPanel(s.split(''));
   }
 
@@ -335,6 +337,11 @@ $(function() {
     optionAlphabeticOrder = !optionAlphabeticOrder;
     $('#opt-alphabetic-order').text(optionAlphabeticOrder ? 'Consonnes/Voyelles' : 'Ordre Alphabétique');
     refreshPanel();
+  });
+
+  $('#opt-separate-phonems').click(function(){
+    optionSeparatePhonems = !optionSeparatePhonems;
+    $('#opt-separate-phonems').text(optionSeparatePhonems ? 'Grouper phonèmes' : 'Dégrouper phonèmes');
   });
 
   $('#show-toolbar').click(function(){
