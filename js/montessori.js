@@ -331,18 +331,29 @@ $(function() {
     refreshWord();
   });
 
-  $('#opt-upper').click(function(){
+  function toggleUpperCaseOption()
+  {
     optionUpperCase = !optionUpperCase;
     $('#opt-upper').text(optionUpperCase ? 'Minuscules' : 'Majuscules');
-    refreshPanel();
-    refreshWord();
-    if(solutionDisplayed)
-      showSolution();
+  }
+
+  $('#opt-upper').click(function(){
+    //Only allow uppercase for Script writting
+    if(optionUpperCase || optionScript) {
+      toggleUpperCaseOption();
+      refreshPanel();
+      refreshWord();
+      if(solutionDisplayed)
+        showSolution();
+    }
   });
 
   $('#opt-script').click(function(){
     optionScript = !optionScript;
     $('#opt-script').text(optionScript ? 'Cursive' : 'Script');
+    //Cursive writting is only in lower case
+    if(!optionScript && optionUpperCase)
+      toggleUpperCaseOption();
     refreshPanel();
     refreshWord();
     if(solutionDisplayed)
