@@ -78,6 +78,16 @@ $(function() {
       return letter;
   }
 
+  //@return the written word
+  //eg : "bec" for ["b", "e_è", "c"]
+  function getWrittenWord(word) {
+    var writtenWord = '';
+    word.forEach(function(c) {
+      writtenWord += getLetter(c);
+    });
+    return writtenWord;
+  }
+
   function applyCase(letter) {
     return optionUpperCase ? letter.toUpperCase() : letter;
   }
@@ -248,9 +258,10 @@ $(function() {
     });
   }
 
-  function reloadWord() {
+  function reloadWord(word) {
+    var w = word != null ? word : getRandomWord();
     var el = $('.word').get(0);
-    currentWord = createWord(el, getRandomWord());
+    currentWord = createWord(el, w);
     playSound("words/" + currentFullWord);
   }
 
@@ -387,6 +398,16 @@ $(function() {
   createLetters();
   reloadWord();
 
+  //Load all the words in the select
+  words.forEach(function(word, ind){
+    $('#opt-word').append('<option value="' + ind + '">' + getWrittenWord(word) + '</option>');  
+  });
+
+  $('#opt-word').change(function(e){
+    reloadWord(words[$(e.target).val()]);
+  })
+
+  //Not working for now, need to test more with a multitouch device
   //Solution taken from http://stackoverflow.com/questions/1517924/javascript-mapping-touch-events-to-mouse-events
   function touchHandler(event)
   {
