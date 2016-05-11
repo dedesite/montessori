@@ -1,6 +1,8 @@
 # montessori
 Dictée Montessori
 
+Note : Branche expérimentale utilisant Angular 2 comme framework
+
 ## TODO
 
 * Horizontally and vertically center image

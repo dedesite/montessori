@@ -6,47 +6,23 @@
   <link rel="stylesheet" href="./css/bootstrap.min.css">
   <link rel="stylesheet" href="./css/montessori.css">
   <link rel="stylesheet" href="./css/jquery-ui.css">
-  <script src="./js/jquery-1.10.2.js"></script>
-  <script src="./js/jquery-ui.js"></script>
-  <script src="./js/bootstrap.min.js"></script>
-  <script src="./data/words.js"></script>
-  <script src="./js/montessori.js"></script>
+  <!-- 1. Load libraries -->
+   <!-- Polyfill(s) for older browsers -->
+  <script src="node_modules/es6-shim/es6-shim.min.js"></script>
+
+  <script src="node_modules/zone.js/dist/zone.js"></script>
+  <script src="node_modules/reflect-metadata/Reflect.js"></script>
+  <script src="node_modules/systemjs/dist/system.src.js"></script>
+
+  <!-- 2. Configure SystemJS -->
+  <script src="systemjs.config.js"></script>
+  <script>
+    System.import('app').catch(function(err){ console.error(err);  });
+  </script>
 </head>
+<base href="/">
+<!-- 3. Display the application -->
 <body>
-  <div class="container" id="app">
-    <div class="row">
-      <div class="toolbar">
-        <div class="col-md-2">
-          <button id="opt-phonems" class="btn">Cacher phonèmes</button>
-        </div>
-        <div class="col-md-2">
-          <button id="opt-mutes" class="btn">Cacher muettes</button>
-        </div>
-        <div class="col-md-1">
-          <button id="opt-upper" class="btn">Majuscules</button>
-        </div>
-        <div class="col-md-1">
-          <button id="opt-script" class="btn">Script</button>
-        </div>
-        <div class="col-md-2">
-          <button id="opt-alphabetic-order" class="btn">Ordre Alphabétique</button>
-        </div>
-        <div class="col-md-2">
-          <button id="opt-separate-phonems" class="btn">Dégrouper phonèmes</button>
-        </div>
-        <div class="col-md-1">
-          <select id="opt-word">
-          </select>
-        </div>
-      </div>
-      <div class="col-md-1 navbar-right">
-          <button id="show-toolbar" class="btn"><span class="glyphicon glyphicon-cog"></span></button>
-      </div>
-    </div>
-    <div class="row word">
-    </div>
-    <div class="row letters">
-    </div>
-  </div>
+  <my-app>Loading...</my-app>
 </body>
 </html>

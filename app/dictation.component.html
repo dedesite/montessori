@@ -1,0 +1,49 @@
+<div class="container" id="app">
+  <div class="row">
+    <div class="toolbar" *ngIf="isToolbarDisplayed">
+      <div class="col-md-2">
+        <button id="opt-phonems" class="btn">Cacher phonèmes</button>
+      </div>
+      <div class="col-md-2">
+        <button id="opt-mutes" class="btn">Cacher muettes</button>
+      </div>
+      <div class="col-md-1">
+        <button id="opt-upper" class="btn">Majuscules</button>
+      </div>
+      <div class="col-md-1">
+        <button (click)="isCursiveFont=!isCursiveFont" class="btn">Script</button>
+      </div>
+      <div class="col-md-2">
+        <button (click)="toggleisAlphabeticOrder()" class="btn">Ordre Alphabétique</button>
+      </div>
+      <div class="col-md-2">
+        <button id="opt-separate-phonems" class="btn">Dégrouper phonèmes</button>
+      </div>
+      <div class="col-md-1">
+        <select id="opt-word">
+        </select>
+      </div>
+    </div>
+    <div class="col-md-1 navbar-right">
+        <button id="show-toolbar" class="btn" (click)="isToolbarDisplayed=!isToolbarDisplayed"><span class="glyphicon glyphicon-cog"></span></button>
+    </div>
+  </div>
+  <div class="row word">
+  </div>
+  <div class="row letters">
+    <div *ngFor="let grapheme of displayedGraphemes">
+      <div 
+        [class.cursive]="isCursiveFont"
+        class="col-md-1 panel-letter letter draggable base">
+        {{grapheme}}
+      </div>
+    </div>
+    <div class="col-md-1 base letter">
+      <button type="button" class="btn btn-primary btn-lg" (click)="toggleGraphemeDisplay()">
+        <span 
+        [ngClass]="isComplexGraphemesDisplayed ? 'glyphicon-arrow-left' : 'glyphicon-arrow-right'"
+        class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</div>
