@@ -83,7 +83,7 @@ export class GraphemeService {
         fileName += g.representation;
       });
 
-      words.push({ graphemes: wordGraphemes, fileName: fileName });
+      words.push(new Word(wordGraphemes, fileName);
     });
 
     return words;

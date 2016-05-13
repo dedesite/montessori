@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var grapheme_1 = require('./grapheme');
+var word_1 = require('./word');
 var graphemes_fr_1 = require('./data/graphemes-fr');
 var words_fr_1 = require('./data/words-fr');
 var LanguageGraphemes = (function () {
@@ -78,7 +79,7 @@ var GraphemeService = (function () {
                 //the fileName of the word is a concatenation off all the graphemes
                 fileName += g.representation;
             });
-            words.push({ graphemes: wordGraphemes, fileName: fileName });
+            words.push(new word_1.Word(wordGraphemes, fileName));
         });
         return words;
     };

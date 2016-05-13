@@ -1,8 +1,22 @@
 "use strict";
+var grapheme_1 = require('./grapheme');
 var Word = (function () {
-    function Word() {
-        this.graphemes = [];
-        this.fileName = '';
+    function Word(graphemes, fileName) {
+        var _this = this;
+        this.graphemes = graphemes;
+        this.fileName = fileName;
+        //Complex grapheme can be displayed as simple graphemes
+        this.ungroupedGraphemes = [];
+        this.graphemes.forEach(function (g) {
+            if (g.graphemeType == 'complex') {
+                g.representation.split('').forEach(function (simpleGraph) {
+                    _this.ungroupedGraphemes.push(new grapheme_1.Grapheme('vowel', [simpleGraph], simpleGraph, true));
+                });
+            }
+            else {
+                _this.ungroupedGraphemes.push(g);
+            }
+        });
     }
     return Word;
 }());

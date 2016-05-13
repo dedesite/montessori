@@ -21,7 +21,8 @@ var DictationComponent = (function () {
         this.isUpperCase = false;
         this.isSolutionDisplayed = false;
         this.areMutedGraphemesDisplayed = true;
-        this.areComplexGrapemesDisplayed = true;
+        this.areComplexGraphemesDisplayed = true;
+        this.areComplexGraphemesGrouped = true;
         this.currentWordIndex = 0;
     }
     DictationComponent.prototype.ngOnInit = function () {
@@ -46,7 +47,7 @@ var DictationComponent = (function () {
                 g.isFound = _this.areMutedGraphemesDisplayed;
             }
             if (g.graphemeType == 'complex') {
-                g.isFound = _this.areComplexGrapemesDisplayed;
+                g.isFound = _this.areComplexGraphemesDisplayed;
             }
         });
     };
@@ -65,8 +66,8 @@ var DictationComponent = (function () {
         this.areMutedGraphemesDisplayed = !this.areMutedGraphemesDisplayed;
         this.updateWordGraphemes();
     };
-    DictationComponent.prototype.toggleAreComplexGrapemesDisplayed = function () {
-        this.areComplexGrapemesDisplayed = !this.areComplexGrapemesDisplayed;
+    DictationComponent.prototype.toggleareComplexGraphemesDisplayed = function () {
+        this.areComplexGraphemesDisplayed = !this.areComplexGraphemesDisplayed;
         this.updateWordGraphemes();
     };
     DictationComponent.prototype.toggleGraphemeDisplay = function () {
@@ -76,6 +77,9 @@ var DictationComponent = (function () {
     DictationComponent.prototype.toggleIsAlphabeticOrder = function () {
         this.isAlphabeticOrder = !this.isAlphabeticOrder;
         this.updateDisplayedGraphemes();
+    };
+    DictationComponent.prototype.toggleAreComplexGraphemesGrouped = function () {
+        this.areComplexGraphemesGrouped = !this.areComplexGraphemesGrouped;
     };
     DictationComponent.prototype.toggleIsCursiveFont = function () {
         //We don't want to have upper case for cursive font

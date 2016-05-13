@@ -19,7 +19,8 @@ export class DictationComponent implements OnInit{
   isUpperCase = false;
   isSolutionDisplayed = false;
   areMutedGraphemesDisplayed = true;
-  areComplexGrapemesDisplayed = true;
+  areComplexGraphemesDisplayed = true;
+  areComplexGraphemesGrouped = true;
   currentWordIndex = 0;
   currentWord: Word;
   words: Word[];
@@ -52,7 +53,7 @@ export class DictationComponent implements OnInit{
         g.isFound = this.areMutedGraphemesDisplayed;
       }
       if (g.graphemeType == 'complex') {
-        g.isFound = this.areComplexGrapemesDisplayed;
+        g.isFound = this.areComplexGraphemesDisplayed;
       }
     });
   }
@@ -74,8 +75,8 @@ export class DictationComponent implements OnInit{
     this.updateWordGraphemes();
   }
 
-  toggleAreComplexGrapemesDisplayed() {
-    this.areComplexGrapemesDisplayed = !this.areComplexGrapemesDisplayed;
+  toggleareComplexGraphemesDisplayed() {
+    this.areComplexGraphemesDisplayed = !this.areComplexGraphemesDisplayed;
     this.updateWordGraphemes();
   }
 
@@ -87,6 +88,10 @@ export class DictationComponent implements OnInit{
   toggleIsAlphabeticOrder() {
     this.isAlphabeticOrder = !this.isAlphabeticOrder;
     this.updateDisplayedGraphemes();
+  }
+
+  toggleAreComplexGraphemesGrouped() {
+     this.areComplexGraphemesGrouped = !this.areComplexGraphemesGrouped;
   }
 
   toggleIsCursiveFont() {
