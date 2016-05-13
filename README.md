@@ -5,6 +5,8 @@ Note : Branche expérimentale utilisant Angular 2 comme framework
 
 ## TODO
 
+* Définir les phonèmes liés aux graphèmes en utilisant l'aphabet phonétique pour être international
+* Pouvoir créer son profil en rajoutant une photo si webcam il y avec un bouton à droite pour prendre la photo et un bouton a gauche pour annuler si la photo prise ne convient pas. Le tout stocké en LocalStorage associé avec les points et éventuellement un prénom que l'adulte ou l'enfant pourra rentrer.
 * Horizontally and vertically center image
 * Sort words regarding their difficulty or specific phonem learning
 * Peut-être précharger tous les sons au début (voir avec un loader)

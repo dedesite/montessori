@@ -9,48 +9,94 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var grapheme_service_1 = require('./grapheme.service');
 var DictationComponent = (function () {
-    function DictationComponent() {
+    function DictationComponent(graphemeService) {
+        this.graphemeService = graphemeService;
         this.displayedGraphemes = [];
         this.isComplexGraphemesDisplayed = false;
         this.isToolbarDisplayed = false;
         this.isAlphabeticOrder = false;
         this.isCursiveFont = true;
-        //@temp need to put this into config file which will be language speicific
-        this.vowels = 'aâeéèêiïîouy';
-        this.consonants = 'bcçdfghjklmnpqrstvwxz';
-        this.phonems = ['ou', 'ai', 'ei', 'er', 'ed', 'et', 'ette', 'en', 'an', 'on',
-            'tion', 'oi', 'oin', 'ch', 'ph', 'gu', 'qu', 'eau', 'ain', 'in', 'ein', 'ien',
-            'œu', 'eu', 'ill', 'euil', 'ail', 'eil', 'eille'];
+        this.isUpperCase = false;
+        this.isSolutionDisplayed = false;
+        this.areMutedGraphemesDisplayed = true;
+        this.areComplexGrapemesDisplayed = true;
+        this.currentWordIndex = 0;
     }
     DictationComponent.prototype.ngOnInit = function () {
+        this.words = this.graphemeService.getWords();
+        this.graphemes = this.graphemeService.getGraphemes();
+        this.setRandomCurrentWord();
         this.updateDisplayedGraphemes();
+    };
+    DictationComponent.prototype.setRandomCurrentWord = function () {
+        this.currentWordIndex = Math.floor(Math.random() * (this.words.length));
+        this.updateWord();
+    };
+    DictationComponent.prototype.updateWord = function () {
+        this.currentWord = this.words[this.currentWordIndex];
+        this.isSolutionDisplayed = false;
+        this.updateWordGraphemes();
+    };
+    DictationComponent.prototype.updateWordGraphemes = function () {
+        var _this = this;
+        this.currentWord.graphemes.forEach(function (g) {
+            if (g.isMute) {
+                g.isFound = _this.areMutedGraphemesDisplayed;
+            }
+            if (g.graphemeType == 'complex') {
+                g.isFound = _this.areComplexGrapemesDisplayed;
+            }
+        });
     };
     DictationComponent.prototype.updateDisplayedGraphemes = function () {
         if (this.isComplexGraphemesDisplayed) {
-            this.displayedGraphemes = this.phonems;
+            this.displayedGraphemes = this.graphemes.complexes;
         }
         else {
-            var s = this.vowels + this.consonants;
+            this.displayedGraphemes = this.graphemes.vowels;
+            this.displayedGraphemes = this.displayedGraphemes.concat(this.graphemes.consonants);
             if (this.isAlphabeticOrder)
-                s = s.split('').sort(function (a, b) { return a.localeCompare(b); }).join('');
-            this.displayedGraphemes = s.split('');
+                this.displayedGraphemes.sort(function (a, b) { return a.representation.localeCompare(b.representation); });
         }
+    };
+    DictationComponent.prototype.toggleAreMutedGraphemesDisplayed = function () {
+        this.areMutedGraphemesDisplayed = !this.areMutedGraphemesDisplayed;
+        this.updateWordGraphemes();
+    };
+    DictationComponent.prototype.toggleAreComplexGrapemesDisplayed = function () {
+        this.areComplexGrapemesDisplayed = !this.areComplexGrapemesDisplayed;
+        this.updateWordGraphemes();
     };
     DictationComponent.prototype.toggleGraphemeDisplay = function () {
         this.isComplexGraphemesDisplayed = !this.isComplexGraphemesDisplayed;
         this.updateDisplayedGraphemes();
     };
-    DictationComponent.prototype.toggleisAlphabeticOrder = function () {
+    DictationComponent.prototype.toggleIsAlphabeticOrder = function () {
         this.isAlphabeticOrder = !this.isAlphabeticOrder;
         this.updateDisplayedGraphemes();
+    };
+    DictationComponent.prototype.toggleIsCursiveFont = function () {
+        //We don't want to have upper case for cursive font
+        if (this.isUpperCase && !this.isCursiveFont)
+            this.toggleIsUpperCase();
+        this.isCursiveFont = !this.isCursiveFont;
+    };
+    DictationComponent.prototype.toggleIsUpperCase = function () {
+        if (this.isUpperCase || !this.isCursiveFont)
+            this.isUpperCase = !this.isUpperCase;
+    };
+    DictationComponent.prototype.applyCase = function (str) {
+        return this.isUpperCase ? str.toUpperCase() : str;
     };
     DictationComponent = __decorate([
         core_1.Component({
             selector: 'my-dictation',
             templateUrl: 'app/dictation.component.html',
+            providers: [grapheme_service_1.GraphemeService]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [grapheme_service_1.GraphemeService])
     ], DictationComponent);
     return DictationComponent;
 }());

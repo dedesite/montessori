@@ -2,26 +2,29 @@
   <div class="row">
     <div class="toolbar" *ngIf="isToolbarDisplayed">
       <div class="col-md-2">
-        <button id="opt-phonems" class="btn">Cacher phonèmes</button>
+        <button (click)="toggleAreComplexGrapemesDisplayed()" class="btn">Cacher phonèmes</button>
       </div>
       <div class="col-md-2">
-        <button id="opt-mutes" class="btn">Cacher muettes</button>
+        <button (click)="toggleAreMutedGraphemesDisplayed()" class="btn">Cacher muettes</button>
       </div>
       <div class="col-md-1">
-        <button id="opt-upper" class="btn">Majuscules</button>
+        <button (click)="toggleIsUpperCase()" class="btn">Majuscules</button>
       </div>
       <div class="col-md-1">
-        <button (click)="isCursiveFont=!isCursiveFont" class="btn">Script</button>
+        <button (click)="toggleIsCursiveFont()" class="btn">Script</button>
       </div>
       <div class="col-md-2">
-        <button (click)="toggleisAlphabeticOrder()" class="btn">Ordre Alphabétique</button>
+        <button (click)="toggleIsAlphabeticOrder()" class="btn">Ordre Alphabétique</button>
       </div>
       <div class="col-md-2">
         <button id="opt-separate-phonems" class="btn">Dégrouper phonèmes</button>
       </div>
       <div class="col-md-1">
-        <select id="opt-word">
-        </select>
+        <!-- select>
+          <option *ngFor="let word of words; let i=index" [value]="{{i}}">
+            {{word.fileName}}
+          </option>
+        </select !-->
       </div>
     </div>
     <div class="col-md-1 navbar-right">
@@ -29,13 +32,44 @@
     </div>
   </div>
   <div class="row word">
+    <div class="col-md-1">
+      <img class="word-img" src="./img/{{currentWord.fileName}}.jpg" class="thumbnail">
+    </div>
+    <div *ngFor="let wordGrapheme of currentWord.graphemes"
+      [class.cursive]="isCursiveFont"
+      [style.color]="wordGrapheme.color"
+      class="col-md-1 word-letter letter droppable base">
+      <div *ngIf="wordGrapheme.isFound">
+        {{applyCase(wordGrapheme.representation)}}
+      </div>
+    </div>
+    <div class="base col-md-1 navbar-right">
+      <button (click)="setRandomCurrentWord()" class="btn btn-primary btn-lg">
+        <span class="glyphicon glyphicon-refresh"></span>
+      </button>
+    </div>
+    <div class="base col-md-2 navbar-right sol">
+      <div *ngIf="!isSolutionDisplayed">
+        <button (click)="isSolutionDisplayed=true" class="btn btn-primary btn-lg">?</button>
+      </div>
+      <div *ngIf="isSolutionDisplayed">
+        <div *ngFor="let wordGrapheme of currentWord.graphemes"
+          [class.cursive]="isCursiveFont"
+          [style.color]="wordGrapheme.color"
+          class="solution">
+          {{applyCase(wordGrapheme.representation)}}
+        </div>
+      </div>
+    </div>
   </div>
   <div class="row letters">
+    {{displayedGraphemes.length}}
     <div *ngFor="let grapheme of displayedGraphemes">
       <div 
         [class.cursive]="isCursiveFont"
+        [style.color]="grapheme.color"
         class="col-md-1 panel-letter letter draggable base">
-        {{grapheme}}
+        {{applyCase(grapheme.representation)}}
       </div>
     </div>
     <div class="col-md-1 base letter">
