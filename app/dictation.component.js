@@ -37,6 +37,10 @@ var DictationComponent = (function () {
         this.currentWordIndex = Math.floor(Math.random() * (this.words.length));
         this.updateWord();
     };
+    DictationComponent.prototype.setCurrentWord = function (wordIndex) {
+        this.currentWordIndex = wordIndex;
+        this.updateWord();
+    };
     DictationComponent.prototype.updateWord = function () {
         this.currentWord = this.words[this.currentWordIndex];
         this.isSolutionDisplayed = false;

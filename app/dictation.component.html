@@ -20,11 +20,15 @@
         <button (click)="toggleAreComplexGraphemesGrouped()" class="btn">Dégrouper phonèmes</button>
       </div>
       <div class="col-md-1">
-        <!-- select>
-          <option *ngFor="let word of words; let i=index" [value]="{{i}}">
+        <select>
+          <!--@todo click event is not good but didn't find any other working for now !-->
+          <option *ngFor="let word of words; let i=index"
+            [value]="i"
+            [selected]="i == currentWordIndex"
+            (click)="setCurrentWord(i)">
             {{word.fileName}}
           </option>
-        </select !-->
+        </select>
       </div>
     </div>
     <div class="col-md-1 navbar-right">

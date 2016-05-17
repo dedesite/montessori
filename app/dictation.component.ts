@@ -43,6 +43,11 @@ export class DictationComponent implements OnInit{
     this.updateWord();
   }
 
+  setCurrentWord(wordIndex) {
+    this.currentWordIndex = wordIndex;
+    this.updateWord();
+  }
+
   updateWord() {
     this.currentWord = this.words[this.currentWordIndex];
     this.isSolutionDisplayed = false;
