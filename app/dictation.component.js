@@ -41,6 +41,7 @@ var DictationComponent = (function () {
         this.currentWord = this.words[this.currentWordIndex];
         this.isSolutionDisplayed = false;
         this.updateWordGraphemes();
+        this.currentWord.playSound();
     };
     DictationComponent.prototype.updateWordGraphemes = function () {
         var _this = this;

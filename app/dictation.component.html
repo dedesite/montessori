@@ -77,6 +77,7 @@
   </div>
   <div class="row letters">
     <div *ngFor="let grapheme of displayedGraphemes">
+      <!--@todo need to find a better way to handle background color (sound-1 for exemple) but you can't do string interpolation for classes and use the [class.] directive, seems an Angular bug !-->
       <div 
         [class.cursive]="isCursiveFont"
         [class.sound-0]="grapheme.phonems.length > 1 && grapheme.currentPhonemIndex == 0"

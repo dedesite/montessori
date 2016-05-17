@@ -18,4 +18,9 @@ export class Word {
         }
       });
   }
+
+  playSound() {
+    let a = new Audio('./sounds/words/' + this.fileName + '.mp3');
+    a.play();
+  }
 }

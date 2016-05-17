@@ -47,6 +47,7 @@ export class DictationComponent implements OnInit{
     this.currentWord = this.words[this.currentWordIndex];
     this.isSolutionDisplayed = false;
     this.updateWordGraphemes();
+    this.currentWord.playSound();
   }
 
   updateWordGraphemes() {

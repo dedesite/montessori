@@ -18,6 +18,10 @@ var Word = (function () {
             }
         });
     }
+    Word.prototype.playSound = function () {
+        var a = new Audio('./sounds/words/' + this.fileName + '.mp3');
+        a.play();
+    };
     return Word;
 }());
 exports.Word = Word;
