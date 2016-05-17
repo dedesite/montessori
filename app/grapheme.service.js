@@ -83,6 +83,14 @@ var GraphemeService = (function () {
         });
         return words;
     };
+    GraphemeService.prototype.preloadSounds = function (words, phonems) {
+        words.forEach(function (w) {
+            var a = new Audio('./sounds/words/' + w.fileName + '.mp3');
+        });
+        phonems.forEach(function (p) {
+            var a = new Audio('./sounds/phonems/' + p.representation + '.mp3');
+        });
+    };
     GraphemeService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [])

@@ -83,9 +83,18 @@ export class GraphemeService {
         fileName += g.representation;
       });
 
-      words.push(new Word(wordGraphemes, fileName);
+      words.push(new Word(wordGraphemes, fileName));
     });
 
     return words;
+  }
+
+  preloadSounds(words, phonems) {
+    words.forEach(w => {
+      let a = new Audio('./sounds/words/' + w.fileName + '.mp3');
+    });
+    phonems.forEach(p => {
+      let a = new Audio('./sounds/phonems/' + p.representation + '.mp3');
+    });
   }
 }
