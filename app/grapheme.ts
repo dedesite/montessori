@@ -1,7 +1,7 @@
 export class Grapheme {
-  private currentPhonemIndex: number = 0;
+  public currentPhonemIndex: number = 0;
   private color: string;
-  //whether the grapheme has been found or not
+  //whether the grapheme has been found in the game or not
   //used for inWord grapheme
   public isFound: boolean = false;
 
@@ -30,5 +30,12 @@ export class Grapheme {
     }
     if (this.isMute)
       this.color = 'grey';
+  }
+
+  playPhonem() {
+    let a = new Audio('./sounds/phonems/' + this.phonems[this.currentPhonemIndex] + '.mp3');
+    a.play();
+    this.currentPhonemIndex++;
+    this.currentPhonemIndex = this.currentPhonemIndex % this.phonems.length;
   }
 }

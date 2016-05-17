@@ -89,6 +89,7 @@ export class GraphemeService {
     return words;
   }
 
+  //@todo : this need to be put into a promise
   preloadSounds(words, phonems) {
     words.forEach(w => {
       let a = new Audio('./sounds/words/' + w.fileName + '.mp3');

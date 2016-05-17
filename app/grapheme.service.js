@@ -83,6 +83,7 @@ var GraphemeService = (function () {
         });
         return words;
     };
+    //@todo : this need to be put into a promise
     GraphemeService.prototype.preloadSounds = function (words, phonems) {
         words.forEach(function (w) {
             var a = new Audio('./sounds/words/' + w.fileName + '.mp3');

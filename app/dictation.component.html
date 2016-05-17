@@ -76,11 +76,14 @@
     </div>
   </div>
   <div class="row letters">
-    {{displayedGraphemes.length}}
     <div *ngFor="let grapheme of displayedGraphemes">
       <div 
         [class.cursive]="isCursiveFont"
+        [class.sound-0]="grapheme.phonems.length > 1 && grapheme.currentPhonemIndex == 0"
+        [class.sound-1]="grapheme.currentPhonemIndex == 1"
+        [class.sound-2]="grapheme.currentPhonemIndex == 2"
         [style.color]="grapheme.color"
+        (click)="grapheme.playPhonem()"
         class="col-md-1 panel-letter letter draggable base">
         {{applyCase(grapheme.representation)}}
       </div>

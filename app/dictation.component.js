@@ -28,6 +28,8 @@ var DictationComponent = (function () {
     DictationComponent.prototype.ngOnInit = function () {
         this.words = this.graphemeService.getWords();
         this.graphemes = this.graphemeService.getGraphemes();
+        var phonems = Array.concat(this.graphemes.vowels, this.graphemes.consonants, this.graphemes.complexes);
+        this.graphemeService.preloadSounds(this.words, phonems);
         this.setRandomCurrentWord();
         this.updateDisplayedGraphemes();
     };
@@ -61,6 +63,9 @@ var DictationComponent = (function () {
             if (this.isAlphabeticOrder)
                 this.displayedGraphemes.sort(function (a, b) { return a.representation.localeCompare(b.representation); });
         }
+    };
+    DictationComponent.prototype.playGraphemSound = function (graphemIndex) {
+        console.log('Play grapheme', graphemIndex);
     };
     DictationComponent.prototype.toggleAreMutedGraphemesDisplayed = function () {
         this.areMutedGraphemesDisplayed = !this.areMutedGraphemesDisplayed;

@@ -31,6 +31,8 @@ export class DictationComponent implements OnInit{
   ngOnInit() {
     this.words = this.graphemeService.getWords();
     this.graphemes = this.graphemeService.getGraphemes();
+    let phonems = Array.concat(this.graphemes.vowels, this.graphemes.consonants, this.graphemes.complexes);
+    this.graphemeService.preloadSounds(this.words, phonems);
 
     this.setRandomCurrentWord();
     this.updateDisplayedGraphemes();
@@ -68,6 +70,10 @@ export class DictationComponent implements OnInit{
       if(this.isAlphabeticOrder)
         this.displayedGraphemes.sort((a, b) => { return a.representation.localeCompare(b.representation); });
     }
+  }
+
+  playGraphemSound(graphemIndex) {
+    console.log('Play grapheme', graphemIndex);
   }
 
   toggleAreMutedGraphemesDisplayed() {

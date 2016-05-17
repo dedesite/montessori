@@ -12,7 +12,7 @@ var Grapheme = (function () {
         this.inWord = inWord;
         this.isMute = isMute;
         this.currentPhonemIndex = 0;
-        //whether the grapheme has been found or not
+        //whether the grapheme has been found in the game or not
         //used for inWord grapheme
         this.isFound = false;
         switch (this.graphemeType) {
@@ -32,6 +32,12 @@ var Grapheme = (function () {
         if (this.isMute)
             this.color = 'grey';
     }
+    Grapheme.prototype.playPhonem = function () {
+        var a = new Audio('./sounds/phonems/' + this.phonems[this.currentPhonemIndex] + '.mp3');
+        a.play();
+        this.currentPhonemIndex++;
+        this.currentPhonemIndex = this.currentPhonemIndex % this.phonems.length;
+    };
     return Grapheme;
 }());
 exports.Grapheme = Grapheme;
