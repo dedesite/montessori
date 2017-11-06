@@ -24,4 +24,8 @@ export class Word {
     const a = new Audio(`./assets/sounds/words/${this.fileName}.mp3`);
     a.play();
   }
+
+  isFound() {
+    return this.graphemes.every(g => g.isFound);
+  }
 }

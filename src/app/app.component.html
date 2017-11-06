@@ -44,7 +44,8 @@
       <div *ngFor="let wordGrapheme of currentWord.ungroupedGraphemes"
         [class.cursive]="isCursiveFont"
         [style.color]="wordGrapheme.color"
-        class="col-md-1 word-letter letter droppable base">
+        class="col-md-1 word-letter letter droppable base"
+        makeDroppable (dropped)="onDrop($event, wordGrapheme)">
         <div *ngIf="wordGrapheme.isFound">
           {{applyCase(wordGrapheme.representation)}}
         </div>
@@ -54,7 +55,8 @@
       <div *ngFor="let wordGrapheme of currentWord.graphemes"
         [class.cursive]="isCursiveFont"
         [style.color]="wordGrapheme.color"
-        class="col-md-1 word-letter letter droppable base">
+        class="col-md-1 word-letter letter droppable base"
+        makeDroppable (dropped)="onDrop($event, wordGrapheme)">
         <div *ngIf="wordGrapheme.isFound">
           {{applyCase(wordGrapheme.representation)}}
         </div>
@@ -89,7 +91,9 @@
         [class.sound-2]="grapheme.currentPhonemIndex == 2"
         [style.color]="grapheme.color"
         (click)="grapheme.playPhonem()"
-        class="col-md-1 panel-letter letter draggable base">
+        class="col-md-1 panel-letter letter draggable base"
+        [makeDraggable]="grapheme"
+        >
         {{applyCase(grapheme.representation)}}
       </div>
     </div>

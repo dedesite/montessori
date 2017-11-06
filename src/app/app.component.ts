@@ -118,4 +118,22 @@ export class AppComponent implements OnInit{
   applyCase(str: string) {
     return this.isUpperCase ? str.toUpperCase() : str;
   }
+
+  playSound(filename: string) {
+    const a = new Audio(`./assets/sounds/${filename}.mp3`);
+    a.play();
+  }
+
+  onDrop(droppedGrapheme: Grapheme, wordGrapheme: Grapheme) {
+    if(droppedGrapheme.representation === wordGrapheme.representation) {
+      this.playSound('juste');
+      wordGrapheme.isFound = true;
+      if(this.currentWord.isFound()) {
+        this.playSound('mot juste');
+        this.setRandomCurrentWord();
+      }
+    } else {
+      this.playSound('faux');
+    }
+  }
 }
