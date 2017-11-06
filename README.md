@@ -1,10 +1,18 @@
 # TODO
 
-- N'afficher les phonème complexe que quand ils en sont pas présents dans les mots
-- Ne pas afficher le bouton majuscule pour les lettres cursives
 - Peut-être ne pas mettre les accents à et î ? Ou alors pour un niveau plus élevé ?
 - Quand on décomposer les phonèmes complexes c'est pas que des voyelles (voir bug dans le code)
 - Attention a ne pas avoir des mots qu'avec phonèmes complexe quand on affiche ces mots, sert à rien
+- A la lecture finale du mot, ne pas prononcer les lettre muette et prononcer les phonèmes complexes au lieu des lettres (ex : serpent, 's' 'e' 'r' 'p' 'en' au lieu de 's' 'e' 'r' 'p' 'e' 'n' 't')
+- Trouver un moyen propre de mettre grapheme dans un component
+  => a besoin des variable de app (majuscule, cursive etc.)
+  => et de certaines de ses fonction (applyCase => peut-être la mettre exclusivement dans grapheme)
+  => comment créer le composant dans le template ?
+
+# DONE
+
+- Ne pas afficher le bouton majuscule pour les lettres cursives
+- N'afficher les phonèmes complexe que quand ils ne sont pas présents dans les mots
 
 # MontessoriAngular
 

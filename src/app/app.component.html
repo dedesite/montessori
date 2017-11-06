@@ -1,23 +1,23 @@
 <div class="container" id="app">
   <div class="row">
     <div class="toolbar" *ngIf="isToolbarDisplayed">
-      <div class="col-md-2">
-        <button (click)="toggleAreComplexGraphemesDisplayed()" class="btn">Cacher phonèmes</button>
+      <div class="col-md-2" *ngIf="areComplexGraphemesGrouped">
+        <button (click)="toggleAreComplexGraphemesDisplayed()" class="btn">{{areComplexGraphemesDisplayed ? 'Cacher phonèmes complexes' : 'Afficher phonèmes complexes'}}</button>
       </div>
       <div class="col-md-2">
-        <button (click)="toggleAreMutedGraphemesDisplayed()" class="btn">Cacher muettes</button>
+        <button (click)="toggleAreMutedGraphemesDisplayed()" class="btn">{{areMutedGraphemesDisplayed ? 'Cacher muettes' : 'Afficher muettes'}}</button>
+      </div>
+      <div class="col-md-1" *ngIf="!isCursiveFont">
+        <button (click)="toggleIsUpperCase()" class="btn">{{isUpperCase ? 'Minuscules' : 'Majuscules'}}</button>
       </div>
       <div class="col-md-1">
-        <button (click)="toggleIsUpperCase()" class="btn">Majuscules</button>
-      </div>
-      <div class="col-md-1">
-        <button (click)="toggleIsCursiveFont()" class="btn">Script</button>
+        <button (click)="toggleIsCursiveFont()" class="btn">{{isCursiveFont ? 'Script' : 'Cursive'}}</button>
       </div>
       <div class="col-md-2">
-        <button (click)="toggleIsAlphabeticOrder()" class="btn">Ordre Alphabétique</button>
+        <button (click)="toggleIsAlphabeticOrder()" class="btn">{{isAlphabeticOrder ? 'Voyelles en premier' : 'Ordre Alphabétique'}}</button>
       </div>
       <div class="col-md-2">
-        <button (click)="toggleAreComplexGraphemesGrouped()" class="btn">Dégrouper phonèmes</button>
+        <button (click)="toggleAreComplexGraphemesGrouped()" class="btn">{{areComplexGraphemesGrouped ? 'Dégrouper phonèmes' : 'Grouper phonèmes'}}</button>
       </div>
       <div class="col-md-1">
         <select>
@@ -93,7 +93,7 @@
         {{applyCase(grapheme.representation)}}
       </div>
     </div>
-    <div class="col-md-1 base letter">
+    <div class="col-md-1 base letter" *ngIf="areComplexGraphemesGrouped && !areComplexGraphemesDisplayed">
       <button type="button" class="btn btn-primary btn-lg" (click)="toggleGraphemeDisplay()">
         <span
         [ngClass]="isComplexGraphemesDisplayed ? 'glyphicon-arrow-left' : 'glyphicon-arrow-right'"
