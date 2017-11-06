@@ -1,20 +1,104 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!
-  </h1>
-  <img width="300" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="container" id="app">
+  <div class="row">
+    <div class="toolbar" *ngIf="isToolbarDisplayed">
+      <div class="col-md-2">
+        <button (click)="toggleAreComplexGraphemesDisplayed()" class="btn">Cacher phonèmes</button>
+      </div>
+      <div class="col-md-2">
+        <button (click)="toggleAreMutedGraphemesDisplayed()" class="btn">Cacher muettes</button>
+      </div>
+      <div class="col-md-1">
+        <button (click)="toggleIsUpperCase()" class="btn">Majuscules</button>
+      </div>
+      <div class="col-md-1">
+        <button (click)="toggleIsCursiveFont()" class="btn">Script</button>
+      </div>
+      <div class="col-md-2">
+        <button (click)="toggleIsAlphabeticOrder()" class="btn">Ordre Alphabétique</button>
+      </div>
+      <div class="col-md-2">
+        <button (click)="toggleAreComplexGraphemesGrouped()" class="btn">Dégrouper phonèmes</button>
+      </div>
+      <div class="col-md-1">
+        <select>
+          <!--@todo click event is not good but didn't find any other working for now !-->
+          <option *ngFor="let word of words; let i=index"
+            [value]="i"
+            [selected]="i == currentWordIndex"
+            (click)="setCurrentWord(i)">
+            {{word.fileName}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-1 navbar-right">
+        <button id="show-toolbar" class="btn" (click)="isToolbarDisplayed=!isToolbarDisplayed"><span class="glyphicon glyphicon-cog"></span></button>
+    </div>
+  </div>
+  <div class="row word">
+    <div class="col-md-1">
+      <img class="word-img" src="./img/{{currentWord.fileName}}.jpg" class="thumbnail">
+    </div>
 
+    <div *ngIf="!areComplexGraphemesGrouped">
+      <div *ngFor="let wordGrapheme of currentWord.ungroupedGraphemes"
+        [class.cursive]="isCursiveFont"
+        [style.color]="wordGrapheme.color"
+        class="col-md-1 word-letter letter droppable base">
+        <div *ngIf="wordGrapheme.isFound">
+          {{applyCase(wordGrapheme.representation)}}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="areComplexGraphemesGrouped">
+      <div *ngFor="let wordGrapheme of currentWord.graphemes"
+        [class.cursive]="isCursiveFont"
+        [style.color]="wordGrapheme.color"
+        class="col-md-1 word-letter letter droppable base">
+        <div *ngIf="wordGrapheme.isFound">
+          {{applyCase(wordGrapheme.representation)}}
+        </div>
+      </div>
+    </div>
+    <div class="base col-md-1 navbar-right">
+      <button (click)="setRandomCurrentWord()" class="btn btn-primary btn-lg">
+        <span class="glyphicon glyphicon-refresh"></span>
+      </button>
+    </div>
+    <div class="base col-md-2 navbar-right sol">
+      <div *ngIf="!isSolutionDisplayed">
+        <button (click)="isSolutionDisplayed=true" class="btn btn-primary btn-lg">?</button>
+      </div>
+      <div *ngIf="isSolutionDisplayed">
+        <div *ngFor="let wordGrapheme of currentWord.graphemes"
+          [class.cursive]="isCursiveFont"
+          [style.color]="wordGrapheme.color"
+          class="solution">
+          {{applyCase(wordGrapheme.representation)}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row letters">
+    <div *ngFor="let grapheme of displayedGraphemes">
+      <!--@todo need to find a better way to handle background color (sound-1 for exemple) but you can't do string interpolation for classes and use the [class.] directive, seems an Angular bug !-->
+      <div
+        [class.cursive]="isCursiveFont"
+        [class.sound-0]="grapheme.phonems.length > 1 && grapheme.currentPhonemIndex == 0"
+        [class.sound-1]="grapheme.currentPhonemIndex == 1"
+        [class.sound-2]="grapheme.currentPhonemIndex == 2"
+        [style.color]="grapheme.color"
+        (click)="grapheme.playPhonem()"
+        class="col-md-1 panel-letter letter draggable base">
+        {{applyCase(grapheme.representation)}}
+      </div>
+    </div>
+    <div class="col-md-1 base letter">
+      <button type="button" class="btn btn-primary btn-lg" (click)="toggleGraphemeDisplay()">
+        <span
+        [ngClass]="isComplexGraphemesDisplayed ? 'glyphicon-arrow-left' : 'glyphicon-arrow-right'"
+        class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: "Cursive standard";
+  src: url("./assets/fonts/Cursive standard Bold.ttf");
+}
+
+body {
+  margin: 10px;
+}

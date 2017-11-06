@@ -1,3 +1,11 @@
+# TODO
+
+- N'afficher les phonème complexe que quand ils en sont pas présents dans les mots
+- Ne pas afficher le bouton majuscule pour les lettres cursives
+- Peut-être ne pas mettre les accents à et î ? Ou alors pour un niveau plus élevé ?
+- Quand on décomposer les phonèmes complexes c'est pas que des voyelles (voir bug dans le code)
+- Attention a ne pas avoir des mots qu'avec phonèmes complexe quand on affiche ces mots, sert à rien
+
 # MontessoriAngular
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.8.
