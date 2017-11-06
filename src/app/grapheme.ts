@@ -33,9 +33,18 @@ export class Grapheme {
   }
 
   playPhonem() {
-    const a = new Audio(`./assets/sounds/phonems/${this.phonems[this.currentPhonemIndex]}.mp3`);
-    a.play();
-    this.currentPhonemIndex++;
-    this.currentPhonemIndex = this.currentPhonemIndex % this.phonems.length;
+    return new Promise((resolve, reject) => {
+      if(this.isMute) {
+        resolve();
+      } else {
+        const a = new Audio(`./assets/sounds/phonems/${this.phonems[this.currentPhonemIndex]}.mp3`);
+        a.play();
+        a.addEventListener('ended', () => resolve());
+        a.addEventListener('error', (err) => reject(err));
+
+        this.currentPhonemIndex++;
+        this.currentPhonemIndex = this.currentPhonemIndex % this.phonems.length;
+      }
+    });
   }
 }

@@ -60,13 +60,15 @@ export class GraphemeService {
     if (description.length > 2 && description.charAt(1) == '_') {
       phonem.push(description.charAt(2));
       description = description.charAt(0);
+    } else {
+      phonem.push(description);
     }
     let graphemeType: string;
     if (description.length > 1) {
           graphemeType = 'complex';
     }
     else {
-          graphemeType = GRAPHEMES.vowels.indexOf(description) != -1 ? 'vowels' : 'consonant';
+          graphemeType = GRAPHEMES.vowels.indexOf(description) !== -1 ? 'vowels' : 'consonant';
     }
     return new Grapheme(graphemeType, phonem, description, true, isMute);
   }

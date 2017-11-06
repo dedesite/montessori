@@ -1,5 +1,9 @@
 # TODO
 
+- Bugs avec les graphemes complexes :
+  - Quand ils sont décomposé, le mot n'est pas "found" même s'il l'est
+  - Si on passe de composé à décomposé, on perd le found, même s'il l'était (je sais pas si c'est clair). 
+- Factoriser le code lié au son
 - Peut-être ne pas mettre les accents à et î ? Ou alors pour un niveau plus élevé ?
 - Quand on décomposer les phonèmes complexes c'est pas que des voyelles (voir bug dans le code)
 - Attention a ne pas avoir des mots qu'avec phonèmes complexe quand on affiche ces mots, sert à rien

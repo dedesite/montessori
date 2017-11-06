@@ -62,7 +62,7 @@ export class AppComponent implements OnInit{
         g.isFound = this.areMutedGraphemesDisplayed;
       }
       if (g.graphemeType == 'complex') {
-        g.isFound = this.areComplexGraphemesDisplayed;
+        g.isFound = this.areComplexGraphemesGrouped && this.areComplexGraphemesDisplayed;
       }
     });
   }
@@ -75,7 +75,9 @@ export class AppComponent implements OnInit{
       this.displayedGraphemes = this.graphemes.vowels;
       this.displayedGraphemes = this.displayedGraphemes.concat(this.graphemes.consonants);
       if(this.isAlphabeticOrder)
-        this.displayedGraphemes.sort((a, b) => { return a.representation.localeCompare(b.representation); });
+        this.displayedGraphemes.sort((a, b) => {
+          return a.representation.localeCompare(b.representation);
+        });
     }
   }
 
@@ -101,6 +103,7 @@ export class AppComponent implements OnInit{
 
   toggleAreComplexGraphemesGrouped() {
      this.areComplexGraphemesGrouped = !this.areComplexGraphemesGrouped;
+     this.updateWordGraphemes();
   }
 
   toggleIsCursiveFont() {
@@ -120,8 +123,12 @@ export class AppComponent implements OnInit{
   }
 
   playSound(filename: string) {
-    const a = new Audio(`./assets/sounds/${filename}.mp3`);
-    a.play();
+    return new Promise((resolve, reject) => {
+      const a = new Audio(`./assets/sounds/${filename}.mp3`);
+      a.play();
+      a.addEventListener('ended', () => resolve());
+      a.addEventListener('error', (err) => reject(err));
+    });
   }
 
   onDrop(droppedGrapheme: Grapheme, wordGrapheme: Grapheme) {
@@ -129,8 +136,10 @@ export class AppComponent implements OnInit{
       this.playSound('juste');
       wordGrapheme.isFound = true;
       if(this.currentWord.isFound()) {
-        this.playSound('mot juste');
-        this.setRandomCurrentWord();
+        this.playSound('mot juste')
+          .then(() => this.currentWord.playAllWordGraphemesSound())
+          .then(() => this.setRandomCurrentWord())
+          .catch(err => console.error(err));
       }
     } else {
       this.playSound('faux');

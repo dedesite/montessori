@@ -23,6 +23,24 @@ export class Word {
   playSound() {
     const a = new Audio(`./assets/sounds/words/${this.fileName}.mp3`);
     a.play();
+    console.log('mot', this);
+  }
+
+  playWordGraphemeSound(resolve, reject, graphemeIndex) {
+    const currentGrapheme = this.graphemes[graphemeIndex];
+    if(currentGrapheme) {
+      currentGrapheme.playPhonem()
+        .then(() => this.playWordGraphemeSound(resolve, reject, graphemeIndex + 1))
+        .catch(err => reject(err))
+    } else {
+      resolve();
+    }
+  }
+
+  playAllWordGraphemesSound() {
+    return new Promise((resolve, reject) => {
+      this.playWordGraphemeSound(resolve, reject, 0);
+    });
   }
 
   isFound() {
