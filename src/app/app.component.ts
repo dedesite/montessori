@@ -79,10 +79,6 @@ export class AppComponent implements OnInit{
     }
   }
 
-  playGraphemSound(graphemIndex) {
-    console.log('Play grapheme', graphemIndex);
-  }
-
   toggleAreMutedGraphemesDisplayed() {
     this.areMutedGraphemesDisplayed = !this.areMutedGraphemesDisplayed;
     this.updateWordGraphemes();
