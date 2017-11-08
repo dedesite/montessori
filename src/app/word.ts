@@ -23,7 +23,6 @@ export class Word {
   playSound() {
     const a = new Audio(`./assets/sounds/words/${this.fileName}.mp3`);
     a.play();
-    console.log('mot', this);
   }
 
   playWordGraphemeSound(resolve, reject, graphemeIndex) {
