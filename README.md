@@ -1,5 +1,14 @@
-# TODO
+# Dictée Montessori
+Clone libre de l'application [Android](https://play.google.com/store/apps/details?id=com.lescapadou.picturespellingfr&hl=fr)/[iOS](http://lescapadou.com/LEscapadou_-_Fun_and_Educational_applications_for_iPad_and_IPhone/Dictee_Muette_Montessori_-_Jeu_Educatif_iPad_et_iPhone.html) du même nom.
 
+## Démo
+
+Vous pouvez [tester l'application ici.](http://dedesite.github.io/montessori/)
+
+## Todo
+
+- Jouer le son sur le mousedown et pas le click
+- Gérer les événements tactiles
 - Bugs avec les graphemes complexes :
   - Quand ils sont décomposé, le mot n'est pas "found" même s'il l'est
   - Si on passe de composé à décomposé, on perd le found, même s'il l'était (je sais pas si c'est clair). 
@@ -13,12 +22,12 @@
   => et de certaines de ses fonction (applyCase => peut-être la mettre exclusivement dans grapheme)
   => comment créer le composant dans le template ?
 
-# DONE
+## DONE
 
 - Ne pas afficher le bouton majuscule pour les lettres cursives
 - N'afficher les phonèmes complexe que quand ils ne sont pas présents dans les mots
 
-# MontessoriAngular
+## Doc Angular
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.8.
 
