@@ -18,7 +18,7 @@ body {
 	padding-top: 8px;
 	float: left;
 	margin: 10px 10px 10px 0;
-	border-radius: 1em;
+	border-radius: 3em;
 	font-size:50px;
 	text-align: center;
 	user-select: none;
@@ -55,6 +55,11 @@ body {
 .phonem {
 	color: green;
 	background-color: #d48989;
+}
+
+.phonem.script {
+	font-size:30px;
+	line-height: 80px;
 }
 
 .good {

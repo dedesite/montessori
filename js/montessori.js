@@ -98,7 +98,7 @@ $(function() {
     var displayedChar = getDisplayedChar(letter);
     var letterData = getLetter(letter);
 
-    var cursive = optionScript ? '' : 'cursive';
+    var cursive = optionScript ? 'script' : 'cursive';
     currentFullWord += letterData;
     var letterEl = $('<div/>', {
       class: 'col-md-1 word-letter letter droppable base ' + letterType + ' ' + cursive,
@@ -267,7 +267,7 @@ $(function() {
 
   function createLetter(el, letter) {
     var letterType = getLetterType(letter);
-    var cursive = optionScript ? '' : 'cursive';
+    var cursive = optionScript ? 'script' : 'cursive';
     var sound = letterHasMultipleSound(letter) ? 'sound-0' : ''
     $('<div/>', {
       class: 'col-md-1 panel-letter letter draggable base ' + letterType + ' ' + cursive + ' ' + sound,
@@ -311,7 +311,7 @@ $(function() {
     solutionDisplayed = true;
     var el = $('.sol').get(0);
     $(el).html('');
-    var cursive = optionScript ? '' : 'cursive';
+    var cursive = optionScript ? 'script' : 'cursive';
     currentWord.forEach(function(c){
       var letter = getLetter(c);
       $('<div/>', {
