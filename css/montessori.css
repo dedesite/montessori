@@ -57,9 +57,12 @@ body {
 	background-color: #d48989;
 }
 
+.script {
+	line-height: 90px;
+}
+
 .phonem.script {
 	font-size:30px;
-	line-height: 80px;
 }
 
 .good {
