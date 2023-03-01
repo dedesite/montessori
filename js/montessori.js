@@ -214,7 +214,7 @@ $(function() {
   }
 
   function onMouseDown(ev) {
-    var letter = $(ev.target).text();
+    var letter = $(ev.target).text().toLowerCase();
     if(previousPlayedLetter !== letter) {
       if(letterHasMultipleSound(previousPlayedLetter)){
         $('#' + previousPlayedLetter).removeClass('sound-' + currentSoundIndex);
@@ -231,7 +231,7 @@ $(function() {
       currentSoundIndex = currentSoundIndex % size;
       $(ev.target).addClass('sound-' + currentSoundIndex);
     }
-    previousPlayedLetter = $(ev.target).text();
+    previousPlayedLetter = $(ev.target).text().toLowerCase();
     playSound("letters/" + letter);
   }
 
