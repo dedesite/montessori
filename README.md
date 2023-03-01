@@ -1,6 +1,10 @@
 # montessori
 Dictée Montessori
 
+## Erreur
+
+Le son de mercredi est "mardi"
+
 ## TODO
 
 * Horizontally and vertically center image

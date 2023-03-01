@@ -1,94 +1,94 @@
 @font-face {
-	font-family: "Cursive standard";
-	src: url("../fonts/Cursive standard Bold.ttf");
+  font-family: "Cursive standard";
+  src: url("../fonts/Cursive standard Bold.ttf");
 }
 
 body {
-	margin: 10px;
+  margin: 10px;
 }
 
 .word-img {
-	width:100%;
-	height:100%;
-	border-width: 1px;
+  width: 100%;
+  height: 100%;
+  border-width: 1px;
 }
 
 .base {
-	height: 100px;
-	padding-top: 8px;
-	float: left;
-	margin: 10px 10px 10px 0;
-	border-radius: 3em;
-	font-size:50px;
-	text-align: center;
-	user-select: none;
-	-moz-user-select:none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
+  height: 100px;
+  padding-top: 8px;
+  float: left;
+  margin: 10px 10px 10px 0;
+  border-radius: 3em;
+  font-size: 50px;
+  text-align: center;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .cursive {
-	font-family: "Cursive standard";
+  font-family: "Cursive standard";
 }
 
 .solution {
-	font-size: 30px;
-	float: left;
+  font-size: 30px;
+  float: left;
 }
 
 .vowel {
-	color: blue;
+  color: blue;
 }
 
 .consonant {
-	color: red;
+  color: red;
 }
 
 .mute {
-	color: grey;
+  color: grey;
 }
 
-.droppable { 
- 	background-color:lightgray;
- }
+.droppable {
+  background-color: lightgray;
+}
 
 .phonem {
-	color: green;
-	background-color: #d48989;
+  color: green;
+  background-color: #d48989;
 }
 
 .script {
-	line-height: 90px;
+  line-height: 90px;
 }
 
 .phonem.script {
-	font-size:30px;
+  font-size: 30px;
 }
 
 .good {
-	background-color:lightgreen;
+  background-color: lightgreen;
 }
 
 .draggable {
-	background-color:lightblue;
+  background-color: lightblue;
 }
 
 .sound-0 {
-	background-color: lightseagreen;
+  background-color: lightseagreen;
 }
 
 .sound-1 {
-	background-color: lightcoral;
+  background-color: lightcoral;
 }
 
 .sound-2 {
-	background-color: lightpink;
+  background-color: lightpink;
 }
 
 .reload {
-	margin-right: 80px;
+  margin-right: 80px;
 }
 
 .toolbar {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
