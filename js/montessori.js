@@ -190,7 +190,7 @@ $(function() {
       $(this)
         .removeClass('droppable')
         .addClass('good')
-        .text(wantedLetter);
+        .text(applyCase(wantedLetter));
       if(isWordCompleted()) {
         playEndAnimation();
       }
