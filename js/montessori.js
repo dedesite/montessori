@@ -497,7 +497,7 @@ $(function () {
     });
 
     first.target.dispatchEvent(simulatedEvent);
-    event.preventDefault();
+    //event.preventDefault();
   }
 
   function init() {
@@ -507,5 +507,5 @@ $(function () {
     document.addEventListener("touchcancel", touchHandler, true);
   }
 
-  //init();
+  init();
 });
