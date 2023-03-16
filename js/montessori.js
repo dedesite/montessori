@@ -471,7 +471,7 @@ $(function () {
   //Not working for now, need to test more with a multitouch device
   //Solution taken from http://stackoverflow.com/questions/1517924/javascript-mapping-touch-events-to-mouse-events
   function touchHandler(event) {
-    console.log("touchHandler ", event);
+    console.log(event.type, event.changedTouches[0].clientX, event.changedTouches[0].clientY);
     var touches = event.changedTouches,
       first = touches[0],
       type = "";
@@ -500,11 +500,18 @@ $(function () {
     //event.preventDefault();
   }
 
+  function mouseHandler(event) {
+    console.log(event.type, event.clientX, event.clientY);
+  }
+
   function init() {
     document.addEventListener("touchstart", touchHandler, true);
     document.addEventListener("touchmove", touchHandler, true);
     document.addEventListener("touchend", touchHandler, true);
     document.addEventListener("touchcancel", touchHandler, true);
+    document.addEventListener("mousedown", mouseHandler, true);
+    document.addEventListener("mouseup", mouseHandler, true);
+    document.addEventListener("mousemove", mouseHandler, true)
   }
 
   init();
