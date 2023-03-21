@@ -164,7 +164,7 @@ $(function () {
     $(el).append(
       '<div class="base col-md-2 navbar-right sol"><button id="solution" class="btn btn-primary btn-lg">?</button></div>'
     );
-    console.log("createWord");
+
     onRefresh();
 
     solutionDisplayed = false;
@@ -231,7 +231,6 @@ $(function () {
   }
 
   function playSound(name) {
-    console.log("playSound", name);
     $(
       '<audio autoplay="autoplay" type="audio/mp3" src="./sounds/' +
         name +
@@ -299,7 +298,6 @@ $(function () {
     var w = word != null ? word : getRandomWord();
     var el = $(".word").get(0);
     currentWord = createWord(el, w);
-    console.log("reloadWord");
     playSound("words/" + currentFullWord);
   }
 
@@ -346,7 +344,6 @@ $(function () {
         '" aria-hidden="true"></span></button></div>';
       $(el).append(btn);
     }
-    console.log("createLetterPanel");
     onRefresh();
   }
 
@@ -494,8 +491,12 @@ $(function () {
     //event.preventDefault();
   }
 
+  let previousEventType = "";
   function mouseHandler(event) {
-    console.log(event.type, event.clientX, event.clientY);
+    if (event.type !== previousEventType) {
+      previousEventType = event.type;
+      console.log(event.type, event.clientX, event.clientY);
+    }
   }
 
   function init() {
