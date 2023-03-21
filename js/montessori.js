@@ -147,13 +147,13 @@ $(function () {
     });
 
     $("<div/>", {
-      class: "col-md-1",
+      class: "col-md-2",
     })
       .prependTo(el)
       .html(
         '<img class="word-img" src="./img/' +
           currentFullWord +
-          '.jpg" class="thumbnail">'
+          '.png" class="thumbnail">'
       );
 
     //Put the reload word button at the right
@@ -164,6 +164,7 @@ $(function () {
     $(el).append(
       '<div class="base col-md-2 navbar-right sol"><button id="solution" class="btn btn-primary btn-lg">?</button></div>'
     );
+    console.log("createWord");
     onRefresh();
 
     solutionDisplayed = false;
@@ -230,6 +231,7 @@ $(function () {
   }
 
   function playSound(name) {
+    console.log("playSound", name);
     $(
       '<audio autoplay="autoplay" type="audio/mp3" src="./sounds/' +
         name +
@@ -297,6 +299,7 @@ $(function () {
     var w = word != null ? word : getRandomWord();
     var el = $(".word").get(0);
     currentWord = createWord(el, w);
+    console.log("reloadWord");
     playSound("words/" + currentFullWord);
   }
 
@@ -343,6 +346,7 @@ $(function () {
         '" aria-hidden="true"></span></button></div>';
       $(el).append(btn);
     }
+    console.log("createLetterPanel");
     onRefresh();
   }
 
@@ -449,20 +453,6 @@ $(function () {
   $("#show-toolbar").click(function () {
     $(".toolbar").toggle();
   });
-  //Hide it at the begining
-  $(".toolbar").toggle();
-
-  words = data.words;
-  multipleSoundsLetters = data.multiple_sounds_letters;
-  createLetters();
-  reloadWord();
-
-  //Load all the words in the select
-  words.forEach(function (word, ind) {
-    $("#opt-word").append(
-      '<option value="' + ind + '">' + getWrittenWord(word) + "</option>"
-    );
-  });
 
   $("#opt-word").change(function (e) {
     reloadWord(words[$(e.target).val()]);
@@ -471,7 +461,11 @@ $(function () {
   //Not working for now, need to test more with a multitouch device
   //Solution taken from http://stackoverflow.com/questions/1517924/javascript-mapping-touch-events-to-mouse-events
   function touchHandler(event) {
-    console.log(event.type, event.changedTouches[0].clientX, event.changedTouches[0].clientY);
+    console.log(
+      event.type,
+      event.changedTouches[0].clientX,
+      event.changedTouches[0].clientY
+    );
     var touches = event.changedTouches,
       first = touches[0],
       type = "";
@@ -511,7 +505,22 @@ $(function () {
     document.addEventListener("touchcancel", touchHandler, true);
     document.addEventListener("mousedown", mouseHandler, true);
     document.addEventListener("mouseup", mouseHandler, true);
-    document.addEventListener("mousemove", mouseHandler, true)
+    document.addEventListener("mousemove", mouseHandler, true);
+
+    //Hide it at the begining
+    $(".toolbar").toggle();
+
+    words = data.words;
+    multipleSoundsLetters = data.multiple_sounds_letters;
+    createLetters();
+    reloadWord();
+
+    //Load all the words in the select
+    words.forEach(function (word, ind) {
+      $("#opt-word").append(
+        '<option value="' + ind + '">' + getWrittenWord(word) + "</option>"
+      );
+    });
   }
 
   init();
