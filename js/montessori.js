@@ -22,6 +22,7 @@ $(function () {
     "eau",
     "ain",
     "in",
+    "un",
     "ein",
     "ien",
     "œu",

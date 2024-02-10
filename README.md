@@ -7,11 +7,17 @@ Le son de mercredi est "mardi"
 
 ## TODO
 
+* Rendre le glissé déposé à nouveau compatible avec le tableau blanc interactif
+* Le phonème "ai" peut sonner "é" dans le cadre de "aimer", "plaisir"
+* Le phonème "œu" et "eu" n'ont pas le bon son et "eu" peut avoir plusieurs sons
+* Manque le phonème "œ" et "un" (j'ai mis "in" à la place)
+* Le mot "mercredi" est faux (ça donne mardi) 
+* Le mot "brun" est prononcé "bras"
 * Horizontally and vertically center image
 * Sort words regarding their difficulty or specific phonem learning
 * Peut-être précharger tous les sons au début (voir avec un loader)
 * Gérer les erreurs sur le fichier JSON et sur les mots et son manquant
-* Ajouter les touch event pour rendre le site compatible tablette et smartphone
+[x] Ajouter les touch event pour rendre le site compatible tablette et smartphone
 * Revoir peut-être l'html pour être plus responsive
 * Revoir la gestion des events jquery et de la génération html pour ne pas avoir à tout refaire à chaque fois
 * Ajouter un système de points avec le nom des enfants
