@@ -129,7 +129,16 @@ $(function () {
       .appendTo(el)
       .data("letter", letterData)
       .data("sound", letterSound);
-    if (displayedChar === "") letterEl.droppable({ drop: onDrop });
+    if (displayedChar === "") {
+      letterEl.on("dragenter", (event) => {
+        event.preventDefault();
+      });
+
+      letterEl.on("dragover", (event) => {
+        event.preventDefault();
+      });
+      letterEl.on("drop", onDrop);
+    }
   }
 
   function createWord(el, word) {
@@ -213,8 +222,8 @@ $(function () {
     }, 800);
   }
 
-  function onDrop(event, ui) {
-    var dropLetter = $(ui.draggable).data("letter");
+  function onDrop(event) {
+    var dropLetter = event.originalEvent.dataTransfer.getData("text/plain");
     var wantedLetter = $(this).data("letter");
     if (dropLetter == wantedLetter) {
       playSound("juste");
@@ -247,7 +256,7 @@ $(function () {
   }
 
   function onMouseDown(ev) {
-    var letter = $(ev.target).text().toLowerCase();
+    var letter = $(ev.target).text().toLowerCase().trim();
     if (previousPlayedLetter !== letter) {
       if (letterHasMultipleSound(previousPlayedLetter)) {
         $("#" + previousPlayedLetter).removeClass("sound-" + currentSoundIndex);
@@ -277,16 +286,17 @@ $(function () {
   }
 
   function onRefresh() {
-    $(".panel-letter").off("mousedown", onMouseDown);
-    $(".panel-letter").mousedown(onMouseDown);
-    $(".word-letter").off("mousedown", onWordLetterDown);
-    $(".word-letter").mousedown(onWordLetterDown);
-
-    $("#opt-phonems-panel").off("click");
-    $("#opt-phonems-panel").click(function () {
-      optionPhonemInPanel = !optionPhonemInPanel;
-      refreshPanel();
-    });
+    if (isTouchDevice()) {
+      $(".panel-letter").off("touchstart", onMouseDown);
+      $(".panel-letter").on("touchstart", onMouseDown);
+      $(".word-letter").off("touchstart", onWordLetterDown);
+      $(".word-letter").on("touchstart", onWordLetterDown);
+    } else {
+      $(".panel-letter").off("mousedown", onMouseDown);
+      $(".panel-letter").mousedown(onMouseDown);
+      $(".word-letter").off("mousedown", onWordLetterDown);
+      $(".word-letter").mousedown(onWordLetterDown);
+    }
 
     $("#reload").off("click");
     $("#reload").click(function () {
@@ -305,26 +315,23 @@ $(function () {
     var letterType = getLetterType(letter);
     var cursive = optionScript ? "script" : "cursive";
     var sound = letterHasMultipleSound(letter) ? "sound-0" : "";
-    $("<div/>", {
-      class:
-        "col-md-1 panel-letter letter draggable base " +
-        letterType +
-        " " +
-        cursive +
-        " " +
-        sound,
-      text: applyCase(letter),
-      id: letter,
-    })
-      .appendTo(el)
-      .draggable({
-        revert: true,
-        revertDuration: 0,
-        start: function (event, ui) {
-          //playSound($(event.target).text());
-        },
-      })
-      .data("letter", letter);
+    $(`<div 
+    id="${letter}" draggable=true 
+    class="col-md-1 panel-letter letter draggable base ${letterType} ${cursive} ${sound}">${applyCase(
+      letter
+    )}</div>`).appendTo(el);
+
+    $(`#${letter}`).on("dragstart", (ev) => {
+      ev.originalEvent.dataTransfer.setData("text/plain", letter);
+    });
+    // .draggable({
+    //   revert: true,
+    //   revertDuration: 0,
+    //   start: function (event, ui) {
+    //     //playSound($(event.target).text());
+    //   },
+    // })
+    // .data("letter", letter);
   }
 
   function createLetterPanel(letters) {
@@ -343,8 +350,13 @@ $(function () {
         arrow +
         '" aria-hidden="true"></span></button></div>';
       $(el).append(btn);
+      $("#opt-phonems-panel").off("click");
+      $("#opt-phonems-panel").click(function () {
+        optionPhonemInPanel = !optionPhonemInPanel;
+        refreshPanel();
+        onRefresh();
+      });
     }
-    onRefresh();
   }
 
   function createLetters() {
@@ -458,11 +470,6 @@ $(function () {
   //Not working for now, need to test more with a multitouch device
   //Solution taken from http://stackoverflow.com/questions/1517924/javascript-mapping-touch-events-to-mouse-events
   function touchHandler(event) {
-    console.log(
-      event.type,
-      event.changedTouches[0].clientX,
-      event.changedTouches[0].clientY
-    );
     var touches = event.changedTouches,
       first = touches[0],
       type = "";
@@ -495,22 +502,32 @@ $(function () {
   function mouseHandler(event) {
     if (event.type !== previousEventType) {
       previousEventType = event.type;
-      console.log(event.type, event.clientX, event.clientY);
+      log(event.type, event.clientX, event.clientY);
     }
   }
 
+  function log(...args) {
+    let str = "";
+    for (const msg of args) {
+      str += `${msg}, `;
+    }
+    $("#console").append(`${str}<br>`);
+  }
+
   function init() {
+    $("#start").toggleClass("hidden");
+    $("#app").toggleClass("hidden");
     //const wheelOpt = supportsPassive ? { passive: false } : false;
     const wheelEvent =
       "onwheel" in document.createElement("div") ? "wheel" : "mousewheel";
 
-    document.addEventListener("touchstart", touchHandler, true);
-    document.addEventListener("touchmove", touchHandler, true);
-    document.addEventListener("touchend", touchHandler, true);
-    document.addEventListener("touchcancel", touchHandler, true);
-    document.addEventListener("mousedown", mouseHandler, true);
-    document.addEventListener("mouseup", mouseHandler, true);
-    document.addEventListener("mousemove", mouseHandler, true);
+    // document.addEventListener("touchstart", touchHandler, true);
+    // document.addEventListener("touchmove", touchHandler, true);
+    // document.addEventListener("touchend", touchHandler, true);
+    // document.addEventListener("touchcancel", touchHandler, true);
+    // document.addEventListener("mousedown", mouseHandler, true);
+    // document.addEventListener("mouseup", mouseHandler, true);
+    // document.addEventListener("mousemove", mouseHandler, true);
 
     //Hide it at the begining
     $(".toolbar").toggle();
@@ -528,6 +545,7 @@ $(function () {
     });
   }
 
+  // Taken from : https://stackoverflow.com/a/4770179
   // left: 37, up: 38, right: 39, down: 40,
   // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
   var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
@@ -566,17 +584,17 @@ $(function () {
     window.addEventListener("DOMMouseScroll", preventDefault, false); // older FF
     window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
     window.addEventListener("touchmove", preventDefault, wheelOpt); // mobile
-    window.addEventListener("keydown", preventDefaultForScrollKeys, false);
+    //window.addEventListener("keydown", preventDefaultForScrollKeys, false);
   }
 
-  // call this to Enable
-  function enableScroll() {
-    window.removeEventListener("DOMMouseScroll", preventDefault, false);
-    window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
-    window.removeEventListener("touchmove", preventDefault, wheelOpt);
-    window.removeEventListener("keydown", preventDefaultForScrollKeys, false);
+  function isTouchDevice() {
+    return (
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0 ||
+      navigator.msMaxTouchPoints > 0
+    );
   }
 
-  disableScroll();
-  init();
+  // disableScroll();
+  $("#start").click(init);
 });

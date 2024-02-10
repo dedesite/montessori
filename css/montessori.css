@@ -36,11 +36,13 @@ body {
 }
 
 .vowel {
-  color: blue;
+  /* color: blue; */
+  color: red;
 }
 
 .consonant {
-  color: red;
+  /* color: red; */
+  color: blue;
 }
 
 .mute {
